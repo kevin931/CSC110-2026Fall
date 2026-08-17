@@ -1,0 +1,106 @@
+---
+title: "W1D1"
+format: pdf
+editor: visual
+execute:
+  warning: false
+  message: false
+---
+
+# Intro to CSC 110
+
+THIS is CSC110! Hello and Welcome! By now we have covered the syllabus, Moodle, and other logistics of the course, now it is time to introduce you to R. This is where you will be spending most your time throughout the semester. So, let's take a tour.
+
+# Introduction to R
+
+Before we talk about code, let's give you an introduction to [JupyterHub](https://csc110.jupyter.davidson.edu) and the overall RStudio interface!
+
+Now that we know how to get to where we are, let's do some quick coding in R to get us ready for what we need to do for the rest of the class.
+
+## Hello World in R
+
+These are the most basic R operations:
+
+```{r}
+
+```
+
+We can also assign values to variables:
+
+```{r}
+
+```
+
+## Loading Packages
+
+Let's not reinvent the wheels if we don't have to! That's what packages are for: we can use what others have created. One package we will be using is `tidyverse`, which is very helpful for data analyses.
+
+Let's load the package:
+
+```{r}
+
+```
+
+So what is `tidyverse`? A collection of packages tailored to data science in R:
+
+- `ggplot2`: for visualizing data
+- `dplyr`: for manipulating data
+- `tidyr`: for cleaning data
+- `tidycensus`: for querying US census data
+
+## Functions
+
+What are functions in mathematics? What are their features?
+
+It turns out in R, we can also use functions. In fact, the `library()` called we used to load the package is a function. Now, for example, you are a financially responsible person, and you want to find out the cost of buying 4 different Labubu blind boxes. First, we can put them into a vector (as a container):
+
+```{r}
+
+```
+
+We can then call the `sum()` function:
+
+```{r}
+
+```
+
+## Getting Help in R
+
+To get help, we can use the following syntax:
+
+```{r, eval=FALSE}
+
+```
+
+R documentation can be dense sometimes. So, know what to look for, and this is where a bit of Googling or ChatGPTing can be helpful. (Be careful, read the AI statement of the course!)
+
+# Dataframe and Datasets
+
+When we work with a dataset, usually it has many observations and many variables. So, we use a data structure called dataframe, which is like a table in excel. Let's look at one from R:
+
+```{r}
+
+```
+
+We can look at everything or the first few rows:
+
+```{r}
+
+```
+
+This is what we call the tidydata format:
+
+- **Each row**: 
+- **Each column**: 
+
+# Introduction to ggplot
+
+One package we will be using extensively is called `ggplot`, which is part of `tidyverse`. It has a very structured grammar called "grammar of graphics", hence explaining the "gg" (not "good game" because it's so difficult). Before I tell you everything, let's look at one example
+
+```{r}
+
+```
+
+::: callout-warning
+This is the first complicated piece of code you see in this case. Don't panic at the classroom! We will have plenty of time to digest and learn what is necessary!
+:::
