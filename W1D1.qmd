@@ -90,8 +90,8 @@ We can look at everything or the first few rows:
 
 This is what we call the tidydata format:
 
-- **Each row**: 
-- **Each column**: 
+- **Each row**:
+- **Each column**:
 
 # Introduction to ggplot
 
