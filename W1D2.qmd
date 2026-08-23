@@ -4,7 +4,6 @@ format: typst
 ---
 
 ```{r, message=FALSE, warning = FALSE}
-
 library(tidyverse)
 ```
 
@@ -28,11 +27,7 @@ Think of ggplot calls as a series of **layers**:
 Last class, we saw the following example:
 
 ```{r}
-ggplot(data = mpg, 
-      aes(x = drv,
-          y = hwy,
-          fill = drv)
-  ) + 
+ggplot(mpg, aes(x = drv, y = hwy, fill = drv)) + 
   geom_violin() + 
   labs(title = "Fuel Efficiency by Drivetrain",
        x = "Drivetrain",
@@ -41,6 +36,22 @@ ggplot(data = mpg,
 ```
 
 Notice that it follows the layers we have described above.
+
+### Detour: The Pipe Operator
+
+In tidyverse, we often start with a dataset and perform an operation on it. This is where the pipe operator comes in. Let's start with a simple example with a new dataset called `mtcars` :
+
+```{r}
+
+```
+
+Annoyingly, there are two notations:
+
+```{r}
+
+```
+
+Which one to use is up to you! In the book you will see the latter. You read the pipe `|>` as "Take X and do Y". In practice, the pipe takes X and put it as the first argument of function Y.
 
 ### A Simple Scatter Plot
 
@@ -54,8 +65,6 @@ Here is what we did:
 
 1.  Create ggplot object, bind dataset, map aesthetics
 2.  Add scatterplot geom
-3.  Add text labels
-4.  Add descriptive labels
 
 ### Add Another layer
 
@@ -67,14 +76,11 @@ We can also add a line of best fit:
 
 ### Adding Titles
 
+Now, we add labels and title:
+
 ```{r}
 
 ```
-
-## R functions in ggplot2
-
-- `ggplot()`, `geom_point()`, and `labs()` are all examples of **functions** in the R programming language.
-- When we **call** or **invoke** a function in our code, it allows us to automate certain tasks.
 
 ## Function arguments
 
