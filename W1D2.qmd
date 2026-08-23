@@ -3,9 +3,7 @@ title: "W1D2"
 format: typst
 ---
 
-```{r}
-#| echo: false
-#| message: false
+```{r, message=FALSE, warning = FALSE}
 
 library(tidyverse)
 ```
