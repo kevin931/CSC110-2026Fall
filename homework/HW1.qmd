@@ -1,0 +1,154 @@
+---
+title: Homework 1
+subtitle: CSC 110 - Data Science & Society
+format: typst
+---
+
+# Introduction
+
+This homework focuses on the basics of the `ggplot2` package for creating data visualizations in R, based on Chapter 1 of *R for Data Science (2nd edition)*. It should also give you some practice with working on Quarto documents, rendering them, and submitting them to Moodle.
+
+## Guidance
+
+- Add code blocks under each question heading, and label each code block according to the question it corresponds to. This makes it easier to find and debug errors when they occur.
+
+All questions are 2 points each.
+
+# Assignment
+
+## Setup
+
+Use the `library()` function to load the tidyverse package into your workspace:
+
+```{r setup, message=FALSE, warning=FALSE}
+## Your code here
+
+```
+
+## Question 1
+
+Use the `glimpse()` function to preview the `mpg` dataset, and use the assignment operator (`<-`) to save the output to a new data frame named `Q1`. How many observations are in the dataset? How many variables?
+
+```{r}
+## Your code here
+
+```
+
+**Your answer**:
+
+------------------------------------------------------------------------
+
+## Question 2
+
+Create a scatterplot named `Q2` using the `mpg` dataset. Put the `displ` variable on the X axis and the `hwy` variable on the Y axis. Write a couple of sentences describing the apparent relationship between these two variables.
+
+```{r}
+## Your code here
+
+```
+
+------------------------------------------------------------------------
+
+## Question 3
+
+Make a new scatterplot named `Q3` with `class` on the X axis and `hwy` on the Y axis, then write a sentence or two below the visual describing the output. Does this chart display the output you expected? Why or why not?
+
+```{r}
+## Your code here
+
+```
+
+**Your answer**:
+
+------------------------------------------------------------------------
+
+## Question 4
+
+Make a new scatterplot named `Q4`. Then, copying your code from Q2 (with `displ` on the X axis and `hwy` on the Y axis), add a size aesthetic that uses the `cyl` variable. Write 1-2 sentences analyzing the data visualization and what it seems to indicate about the relationship(s) between our three variables.
+
+```{r}
+## Your code here
+
+
+```
+
+**Your answer**:
+
+------------------------------------------------------------------------
+
+## Question 5
+
+Copy-paste your code from the previous question to create a new scatterplot named `Q5`. Use the `labs()` function to add descriptive labels to your scatterplot for title, subtitle, X-axis, Y-axis, and size. Refer to the `mpg` dataset's help page by running `??mpg` in the RStudio console if you need help coming up with labels for each variable you are using.
+
+```{r}
+## Your code here
+
+
+```
+
+**Your answer**:
+
+------------------------------------------------------------------------
+
+## Question 6
+
+Create a new scatterplot named `Q6` by copy-pasting your code from the previous question. Remove the size aesthetic from both the `ggplot()` function and the `labs()` function, then add a new layer to your plot that shows a trend line **based on a linear model**.
+
+::: callout-note
+If you are not familiar with lines of best fit, [this site](https://www.statisticshowto.com/line-of-best-fit/){target="blank"} offers a decent primer.
+:::
+
+```{r}
+## Your code here
+
+
+```
+
+------------------------------------------------------------------------
+
+## Question 7
+
+Create a new scatterplot named `Q7` by copy-pasting your code from the previous question. Add a color aesthetic using the `drv` variable to your `ggplot()` function and update your labels with the `labs()` function.
+
+```{r}
+## Your code here
+
+
+```
+
+------------------------------------------------------------------------
+
+## Question 8
+
+Create a new scatterplot named `Q8` by copy-pasting your code from the previous question. Move the color aesthetic from your `ggplot()` function into your scatterplot layer. What changes do you notice in your plot resulting from moving this aesthetic?
+
+```{r}
+## Your code here
+
+```
+
+------------------------------------------------------------------------
+
+## Question 9
+
+Create a new scatterplot named `Q9` by copy-pasting your code from the previous question. Move the color aesthetic from your scatterplot layer into your trend line layer. What changes do you notice in your plot resulting from moving this aesthetic? What principle from the R4DS reading do the past three questions illustrate?
+
+```{r}
+## Your code here
+
+
+```
+
+**Your answer**:
+
+------------------------------------------------------------------------
+
+## Question 10
+
+Answer the following questions:
+
+- Was the R4DS reading helpful for completing this assignment?
+
+- What was the most difficult part of this assignment for you?
+
+------------------------------------------------------------------------
