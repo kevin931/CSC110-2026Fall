@@ -1,0 +1,223 @@
+---
+title: Lab 1
+subtitle: CSC 110
+Author:
+  - Lab Partner 1: 
+  - Lab Partner 2: 
+format: typst
+---
+
+# Introduction
+
+Welcome to CSC 110 Lab 1! In this lab, you will visualize data on economic mobility in the U.S. from [Opportunity Insights](https://opportunityinsights.org/){target="_blank"} using the ggplot2 package.
+
+\newpage
+
+# Setup
+
+Before you can start, there are a few key setup parameters and code blocks that you will need.
+
+First, we will need to load the `tidyverse` and `readxl` packages using the `library()` function:
+
+```{r, message=F, warning=F}
+
+```
+
+Next, load the `Lab1_Chetty_2014.xlsx` dataset into R and skip the first row. Name the resulting dataset `chetty`:
+
+```{r}
+
+```
+
+Given that the dataset is relatively large, we will do some preprocessing and retain only the top 100 commuting zones. You can run the following code as is:
+
+```{r}
+# filter for top 100 commuting zones
+chetty_top100 <- chetty %>%
+  filter(top_100==1)
+
+# remove the larger data set with all commuting zones from the work space
+rm(chetty)
+```
+
+::: callout-note
+If the above codes resulted in an error or the dataset doesn't look what you expected, there may be an error in your setup. Double check what you did.
+:::
+
+\newpage
+
+# Part 1: Economic Mobility & Household Income Across Commuting Zones
+
+In this part of the lab, you will explore the relationship between economic mobility and household income per capita (`hhi_percap`). The mobility measure that you will use in this analysis captures the probability that a child born to a parent in the first income quintile moves to the fifth (highest) income quintile as an adult (`prob_q1q5`).
+
+## Question 1
+
+Value: 10 points
+
+A. Create a scatterplot visual that shows household income per capita on the X axis, and mobility on the Y axis. Use the `labs()` function to add a title to your scatterplot, as well as descriptive labels for both your X and Y axes.
+
+```{r}
+
+```
+
+B. Analyze your visual, then write 1-2 paragraphs below the visual answering these questions: What is the approximate range of the x-axis? What is the approximate range of the y-axis? Based on the distribution of the values, do you believe there is a relationship between these two variables? Why or why not?
+
+**Your answer**:
+
+------------------------------------------------------------------------
+
+## Question 2
+
+Value: 10 points
+
+A. Recreate the same scatterplot from the previous question, but this time add a color aesthetic to distinguish geographic regions. Make sure to add descriptive labels as before.
+
+```{r}
+
+```
+
+B. Analyze your visual, then write 1-2 paragraphs below the visual answering these questions: What patterns did adding this new aesthetic reveal? How would you describe the distribution of the data by region? Which region(s) appears to have the most CZs with mobility greater than 10%? Which region(s) appears to have the most CZs with mobility less than 5%?
+
+**Your answer**:
+
+------------------------------------------------------------------------
+
+## Question 3
+
+Value: 10 points
+
+A. Recreate the same scatterplot from the previous question, but this time represent regions using shape instead of color. Make sure to add descriptive labels as before.
+
+```{r}
+
+```
+
+B. Compare this plot to the previous one, then write 1-2 paragraphs below the visual answering these questions: What are the relative advantages of using the shape aesthetic versus the color aesthetic to represent geographic regions? What are the relative disadvantages?
+
+**Your answer**:
+
+------------------------------------------------------------------------
+
+## Question 4
+
+Value: 10 points
+
+A. Recreate the same scatterplot from the previous question, but now add a size aesthetic to represent the size of the population using the `pop_2000` variable (population from the 2000 Census). Make sure to add descriptive labels as before.
+
+```{r}
+
+```
+
+B. Analyze your visual, then write 1-2 paragraphs below the visual answering these questions: Do you see any relationships between population size and region? Why or why not?
+
+**Your answer**:
+
+------------------------------------------------------------------------
+
+## Question 5
+
+Value: 10 points
+
+A. Recreate the same scatterplot from the previous question, but split your plot into facets by census region. Make sure to add descriptive labels as before.
+
+```{r}
+
+```
+
+B. Compare this split plot to the combined plot from the previous question, then write 1-2 paragraphs below your visual answering these questions: Are there aspects of the relationship between `hhi_percap` and mobility that are easier to detect in the faceted plot than in the combined plot? Which regions appear to have a relatively stronger relationship between `hhi_percap` and mobility?
+
+**Your answer**:
+
+------------------------------------------------------------------------
+
+## Question 6
+
+Value: 10 points
+
+A. Recreate the same scatterplot from the previous question, but alter the color aesthetic to add information on census divisions to your visual. Make sure to add descriptive labels as before.
+
+```{r}
+
+```
+
+C. Analyze your visual, then write 1-2 paragraphs below the visual answering these questions: What did altering the color aesthetic reveal about differences between census divisions in the West region?
+
+**Your answer**:
+
+------------------------------------------------------------------------
+
+## Question 7
+
+Value: 10 points
+
+A. Create a plot of the relationship between `hhi_percap` and `prob_q1q5` with two layers: (1) a scatterplot colored by region, and (2) a linear trend line with no standard error, also colored by region. Add descriptive labels.
+
+```{r}
+
+```
+
+C. Analyze your visual, then write 1-2 paragraphs below the visual answering these questions: What patterns does this new chart illustrate in the data? Be specific!
+
+------------------------------------------------------------------------
+
+## Question 8
+
+Value: 10 points
+
+A. Create a bar chart that displays the **count** (not proportion) of commuting zones by census region. Fill each bar using information on census divisions. Add descriptive labels.
+
+```{r}
+
+```
+
+B. Analyze your visual, then write 1-2 paragraphs below the visual answering these questions: What do you learn from this chart?
+
+**Your answer**:
+
+C. Recreate the same bar chart as before, but this time use the dodge position. Add descriptive labels.
+
+```{r}
+
+```
+
+D. Recreate the same bar chart as before, but this time use the fill position. Add descriptive labels.
+
+```{r}
+
+```
+
+F. Compare all three of the bar charts you just created, then write 2-3 paragraphs below the visuals in which you describe the relative advantages and disadvantages of each of the three bar charts when trying to visualize this information. Which do you find to be the most informative, and why?
+
+**Your answer**:
+
+\newpage
+
+# Part 2: Answering your own research question
+
+In this final part, you will use the Chetty dataset to devise your own research question and analyze it through the use of scatterplots. You may reuse the `prob_q1q5` variable for economic mobility, but your second axis variable should be a CZ characteristic you have **not** yet explored (something other than `hhi_percap`, `social_capital` and `gini`).
+
+Guidelines:
+
+- No bar charts here: just stick to scatterplots, but use whatever aesthetics and additional geoms/layers you think will aid your analysis.
+- Feel free to experiment and iterate! If your first choice of variable didn't illuminate anything interesting, try something else. Explore the Chetty dataset and try to find something that resonates with you.
+- All of your plots and their aesthetics must be labeled appropriately, including title, X axis, and Y axis.
+
+------------------------------------------------------------------------
+
+## Question 9
+
+Value: 20 points
+
+A. Write 1-2 paragraphs answering these questions: How did you choose your variables? What was the rationale for your choice and what specific research question(s) are you trying to answer with these variables?
+
+**Your answer**:
+
+B. Make a scatterplot of your variables with appropriate aesthetics and labeling.
+
+```{r}
+
+```
+
+C. Below your visual, write 1-2 paragraphs answering these questions: What is the approximate range of the x-axis? What is the approximate range of the y-axis? Based on the distribution of the values, do you believe there is a relationship between these two variables? Why or why not?
+
+**Your answer**:
