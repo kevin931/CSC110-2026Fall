@@ -1,0 +1,203 @@
+---
+title: "Examining Economic Mobility"
+format: typst
+---
+
+# Chetty's Executive Summary
+
+## What is intergenerational mobility?
+
+**Definition:**
+
+More specifically, we can define:
+
+- **Relative mobility**:
+
+- **Absolute mobility**:
+
+## "Is the United States truly the Land of Opportunity?"
+
+**Answer**:
+
+### Five Factors
+
+- Factor 1:
+- Factor 2:
+- Factor 3:
+- Factor 4:
+- Factor 5:
+
+## Social Capital
+
+Measures of civic engagement like:
+
+- Voter turnout rates
+- Census response rates
+- Rate of violent crime
+- Religiosity
+
+## "Fast Car" by Tracy Chapman
+
+Let's discuss!
+
+# Working with Chetty Dataset
+
+Once again, we start by defining our exercise setup, loading packages and data. We are using the `include: true` argument to specify that these blocks should remain visible in our final output for informational purposes at the start of the course, but as the semester progresses we will start to hide these blocks in our final output.
+
+## Load packages
+
+We load the same packages as we did in our last exercise.
+
+```{r setup}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
+library(tidyverse)
+library(readxl)
+```
+
+## Read in Chetty data
+
+Our dataset this time comes from the Chetty study. You were introduced to Chetty in the reading for today's class, via the Executive Summary.
+
+This code creates a new data frame named "chetty" by reading in the data from another Excel file.
+
+Also note the use of `skip=1` within our `read_excel()` function. Can you determine why this argument is necessary?
+
+```{r, warning = F}
+chetty <- read_excel("./data/Lab1_Chetty_2014.xlsx", skip=1)
+```
+
+## Get to know the data
+
+Once again, use `head()` or just invoke the name of the data frame to inspect it:
+
+```{r}
+# add your code here
+
+```
+
+### Questions
+
+1.  How many observations (rows) are there in our chetty data frame?
+
+2.  How many variables (columns) are there?
+
+3.  What does each observation represent?
+
+### Variables of interest
+
+Today we will examine the following variables:
+
+| Variable | Type | Description |
+|----|----|----|
+| `social_capital` | continuous | Social capital score |
+| `abs_mobility` | continuous | Absolute mobility score |
+| `rel_mobility` | continuous | Relative mobility score |
+| `urban` | categorical | Identifies whether the CZ is `urban` or `rural` |
+| `gini` | continuous | Gini coefficient |
+
+# Exercise, Part 1
+
+One of the conclusions of the Chetty study in 2014 was that **social capital**, defined as "the strength of an individual's social network and community," may influence upward economic mobility. We're going to explore that assertion in this exercise using Chetty's own data and a mixture of the variables seen above.
+
+Question: **How strong is the relationship between social capital and economic mobility?**
+
+## Step 1
+
+Using `geom_point()`, visualize the relationship between social capital and absolute mobility.
+
+```{r}
+# add your code here
+
+```
+
+### Question 1
+
+Do you see a correlation? Is it what you expected from the Chetty study executive summary?
+
+## Step 2
+
+Add an aesthetic to your graph to represent whether the CZ is urban or not.
+
+```{r}
+# add your code here
+
+```
+
+## Step 3
+
+Use `geom_smooth()` to add a line of best fit to your faceted plot, and experiment with these different options for your line:
+
+- `method`: determines what kind of regression model to use in calculating the slope of the line of best fit
+  - `lm`: linear model (straight line)
+  - `loess`: locally-estimated smoothing (smooth line)
+  - And several others
+- `se`: show or hide a shaded area representing the calculated standard error:
+  - `TRUE`: show the standard error
+  - `FALSE`: hide the standard error
+
+```{r}
+
+```
+
+### Question 2
+
+Do you see any indication that **Simpson's Paradox** could be an issue?
+
+Not really!
+
+## Step 4
+
+Use faceting to separate urban and non-urban CZ's into two separate plots.
+
+```{r}
+# add your code here
+
+```
+
+### Question 3
+
+What differences do you observe between the urban and rural CZ's? Do you see any indication that **Simpson's Paradox** could be an issue?
+
+# Exercise, Part 2
+
+## Step 5
+
+Let's examine **relative mobility** this time. Borrowing your code from above, create a scatterplot that replaces the `abs_mobility` variable with `rel_mobility`, and add a line of best fit. Also, use a color aesthetic **on \`geom_point() only** to draw a single line for the entire dataset.
+
+```{r}
+# add your code here
+
+```
+
+## Step 6
+
+Now take the same chart from Step 5 above and facet it by the `urban` variable.
+
+```{r}
+
+```
+
+### Question 5
+
+What differences do you observe when we use **relative mobility** instead of absolute?
+
+# Exercise, Part 3
+
+Question: **How strong is the relationship between inequality and economic mobility?**
+
+The **Gini coefficient** is a popular measure of income and wealth inequality. In a perfectly unequal society where one person holds all the wealth and everyone else has none of it, the Gini coefficient would be 1. In a perfectly equal society where all members hold an equal share of the wealth, the Gini coefficient would be 0.
+
+With this in mind, Chetty calculated the Gini coefficient for all of the CZs in the study, and this data is included in our dataset for today's lesson.
+
+## Step 7
+
+In this last phase, let's examine the relationship between inequality and mobility by plotting our `gini` variable on the X axis and our `abs_mobility` variable on the Y axis.
+
+```{r}
+# add your code here
+
+```
+
+### Question 6
+
+What do you observe when we analyze the relationship between the **Gini coefficient** and the **absolute mobility score**?
