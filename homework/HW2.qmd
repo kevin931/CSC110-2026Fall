@@ -1,0 +1,179 @@
+---
+title: Homework 2
+subtitle: CSC 110 - Data Science & Society
+format: typst
+---
+
+# Introduction
+
+This homework allows you to practice more `ggplot2` visualization methods, based on Chapter 1 of *R for Data Science (2nd edition)*.
+
+## Guidance
+
+- If a question asks you to provide both code and a written response, write your non-code answers BELOW your code blocks.
+
+# Assignment
+
+## Setup
+
+Run the setup block below to load the data for this homework. When you're done, use the tools in RStudio to examine the dataset.
+
+This data comes to us from the World Bank, specifically from their World Development Indicators database. We're retrieving two variables from the year 2020, `gdp_per_capita` and `life_expectancy`, which we can use to compare countries and regions across the globe.
+
+```{r}
+library(tidyverse)
+library(WDI)
+
+worldbank <- WDI(
+  country = "all",
+  indicator = c(
+    'gdp_per_capita' = "NY.GDP.PCAP.KD", 
+    'life_expectancy' = "SP.DYN.LE00.IN"
+  ),
+  start = 2020,
+  end = 2020,
+  extra = TRUE,
+  cache = NULL,
+  latest = NULL,
+  language = "en"
+) |> filter(region != "Aggregates")
+```
+
+------------------------------------------------------------------------
+
+## Question 1
+
+Use the `worldbank` dataset to create a bar chart that shows the count of countries in each region of the world. Add descriptive labels using the `labs()` function, including an appropriate title, caption, X axis, and Y axis. Below your visual, explain in 1-2 sentences why a bar chart is an appropriate geom for the region variable.
+
+```{r}
+## Your code here
+
+```
+
+**Your answer**:
+
+------------------------------------------------------------------------
+
+## Question 2
+
+Create a histogram that shows the distribution of the life expectancy variable across all countries. Remember to add descriptive labels for title, subtitle, X axis, and Y axis. Experiment with adjusting the sizes of the histogram bins and take note of how that changes the appearance of the histogram.
+
+::: callout-note
+Although you only need to map a single variable to your chart axis here, you can still add descriptive labels to both X and Y axes. This is highly recommended so your audience can better understand what the data in the chart represents!
+:::
+
+```{r}
+## Your code here
+
+```
+
+------------------------------------------------------------------------
+
+## Question 3
+
+Create a new plot by copy-pasting your code from Q2, but this time create a density plot instead of a histogram. In 1-2 sentences, how does the appearance of the density plot differ from that of the histogram?
+
+```{r}
+## Your code here
+
+
+```
+
+**Your answer**:
+
+------------------------------------------------------------------------
+
+## Question 4
+
+Create a boxplot that puts the life expectancy variable on the X axis and the region variable on the Y axis. Add title, caption, and X/Y axis labels. In 1-2 sentences, what insights can you gather from this plot? Also, why did I ask you to put region on the Y axis instead of the X axis?
+
+```{r}
+## Your code here
+
+
+```
+
+**Your answer**:
+
+------------------------------------------------------------------------
+
+## Question 5
+
+Create a bar chart named `Q5` that visualizes the relationship between region and income. To do so, put region on the Y axis and income on the fill aesthetic. Add title, caption, and X/Y axis labels. In 1-2 sentences, summarize a few key insights you can glean from this chart.
+
+```{r}
+## Your code here
+
+
+```
+
+**Your answer**:
+
+------------------------------------------------------------------------
+
+## Question 6
+
+Create a new `Q6` plot by copy-pasting your code from Q5. This time, modify your bar chart in such a way that each bar visualizes **proportions** instead of counts. Roughly what percentage of countries in the "East Asia & Pacific" region are considered upper-middle income?
+
+```{r}
+## Your code here
+
+
+```
+
+**Your answer**:
+
+------------------------------------------------------------------------
+
+## Question 7
+
+Create a histogram named `Q7` that shows the distribution of our life expectancy variable, but this time **facet** the chart by region. Add descriptive labels where needed. Finally, in 1-2 sentences, describe what advantages (and disadvantages) faceting might have when compared to the previous charts, particularly the boxplot.
+
+```{r}
+## Your code here
+
+```
+
+**Your answer**:
+
+------------------------------------------------------------------------
+
+## Question 8
+
+Create a scatterplot with GDP per capita on the X axis and life expectancy on the Y axis. Add a trend line visual on top of the scatterplot using the default ("loess") method. What can you potentially infer about the relationship between these two variables based on the distribution of points in the plot and the shape of our trend line? Think carefully!
+
+```{r, warning = F}
+## Your code here
+
+```
+
+**Your answer**:
+
+------------------------------------------------------------------------
+
+## Question 9
+
+Create a new plot named `Q9` by copy-pasting your code from Q8 and use `facet_wrap()` to break down the scatterplot by income. What insights can you gather from this faceted scatterplot that might not have been as evident in the Q8 scatterplot?
+
+::: callout-tip
+The `facet_wrap()` function has an optional argument: `scales`. Search the documentation in RStudio to see if you can figure out how to use it to adjust the appearance of your facets to make them easier to interpret!
+:::
+
+```{r}
+## Your code here
+
+```
+
+**Your answer**:
+
+------------------------------------------------------------------------
+
+## Question 10 (Reflection)
+
+Using Markdown headings, add a new section to your document named "Q10" and answer the following questions:
+
+- What did you learn from this homework?
+
+- Was the R4DS reading helpful for completing this assignment?
+
+- What was the most difficult part of this assignment for you?
