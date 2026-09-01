@@ -5,7 +5,7 @@ format: typst
 
 # "Infographic Activism"
 
-- How does W.E.B. Du Bois's work innovative?
+- How is W.E.B. Du Bois's work innovative?
 
 - What do you observe about his work?
 
