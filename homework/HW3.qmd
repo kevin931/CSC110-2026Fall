@@ -1,0 +1,89 @@
+---
+title: Homework 3
+format: typst
+execute:
+  warning: False
+  message: False
+---
+
+# Introduction
+
+This assignment covers the usage of `dplyr` functions to select, filter, arrange, and mutate data. Questions are based on R4DS sections 3.1 thru 3.4.
+
+You'll use these functions to construct data pipelines and answer questions about some global economic indicators. This data comes to us from the World Bank's [DataBank](https://databank.worldbank.org/){target="_blank"}, an online repository of information collected from around the globe which is open and free, and accessible via their website, direct API calls, and R/Python packages.
+
+Also, you may use either the base R pipes (`|>`) or the magrittr pipes (`%>%`) depending on your preference, because this tutorial should read both as correct.
+
+## Guidance
+
+- Add code blocks under each question heading. This allows you to practice adding code blocks. If you have trouble finding this, watch the YouTube video on Moodle or ask me!
+
+- If a question asks you to provide both code and a written response, write your non-code answers BELOW your code blocks.
+
+- **Pay close attention** to the instructions!
+
+# Assignment
+
+## Setup
+
+Run the setup block below to load the data for this homework. When you're done, use the tools in RStudio to examine the dataset.
+
+```{r setup, eval = FALSE}
+library(tidyverse)
+
+wdi <- read_csv("../data/worldbank.csv")
+```
+
+------------------------------------------------------------------------
+
+## Question 1
+
+Using the `filter()` function, write a pipeline that retrieves all countries located in the Sub-Saharan Africa region. If you decide to save your output to a dataframe, make sure you print it out.
+
+------------------------------------------------------------------------
+
+## Question 2
+
+Write a pipeline that shows all countries located in the South Asian region with populations of at least 50 million people. In your results, include only country name, region name, and population. Arrange the results alphabetically by country name.
+
+------------------------------------------------------------------------
+
+## Question 3
+
+Write a pipeline that shows all countries with a population of at least 100 million people, **or** all countries in the East Asia & Pacific region with a population less than 100,000 people. Include only country name, region name, and population. Sort the results by population in descending order.
+
+------------------------------------------------------------------------
+
+## Question 4
+
+Create a new data frame and populate it by combining the `filter()` function with the `is.na()` function to find a list of all countries who are missing values for any of the following variables: capital, longitude, and latitude. Use the `select()` function to return only the country name, population, and the three variables we just mentioned. Arrange the results by country name in ascending order.
+
+------------------------------------------------------------------------
+
+## Question 5
+
+Using `distinct()`, return a list of only distinct regions arranged alphabetically.
+
+------------------------------------------------------------------------
+
+## Question 6
+
+Create a new data frame that stores a list of all countries in Europe & Central Asia, but only their names, capital, latitude, and longitude. Arrange the results by country name in **descending** alphabetical order.
+
+For this one, I want you to practice **consecutive range selection** using the colon (`:`) character. Don't use a comma-separated list like we did on Exercise 5 a moment ago. (Check [R4DS](https://r4ds.hadley.nz/data-transform.html#sec-select){target="_blank"} if you need help)
+
+------------------------------------------------------------------------
+
+## Question 7
+
+Create a new data frame named `Q7` that stores a list of all countries in the North America and Latin America & Caribbean regions, and do so using the `%in%` operator. Note, you may also need to use the `c()` function to create a list for this exercise!
+
+In your `select()` function, use **negative selection** with the `!` operator to omit all columns between iso2c and lastupdated. Sort the results by region in descending order, followed by country name in ascending order.
+
+------------------------------------------------------------------------
+
+## Question 8
+
+Use the `mutate()` function to create a new column named `pop_density` that calculates the population density for all countries in the world. Then, creaye another new column named `high_pop_density` that tests whether a country has population density greater than 1000. In your results, return only the country, population, and area variables alongside your new variable, and filter out any countries that DO NOT have population density (due to missing data). Lastly, arrange your output by `pop_density` in descending order, so the most densely-populated countries are at the top of the table.
+
+------------------------------------------------------------------------
