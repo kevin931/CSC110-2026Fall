@@ -1,0 +1,104 @@
+---
+title: "HW4"
+format: typst
+---
+
+# Introduction
+
+Complete the following exercises using the `storms` dataset from the dplyr package. This dataset contains hurricane and tropical storm data from 1975-2022.
+
+## Guidance
+
+- Add code blocks under each question.
+- If a question asks you to provide both code and a written response, write your non-code answers BELOW your code blocks.
+- **Pay close attention** to the instructions!
+
+# Assignment
+
+## Setup
+
+Run the setup block below and use the techniques we've learned to preview the data so you can understand its size and the data types that are present. Make note of what each observation represents!
+
+```{r setup, warning=F, message=F}
+library(tidyverse)
+data(storms)
+glimpse(storms)
+```
+
+------------------------------------------------------------------------
+
+## Question 1: Basic Grouping and Summarizing
+
+Group the `storms` dataset by `status` (hurricane, tropical storm, etc.) and calculate the following variables:
+
+- `count` = Count of observations per status
+- `avg_wind` = Average wind speed (excluding missing values)
+- `avg_pressure` = Average pressure (excluding missing values)
+
+Arrange the results by average wind speed in descending order, and save your output to a new data frame named `Q1`.
+
+------------------------------------------------------------------------
+
+## Question 2: Conditional Mutations
+
+Use `case_when()` to create a new column called `intensity_level` that categorizes each observation based on wind speed:
+
+- "Low": wind \< 50 knots
+- "Moderate": wind 50-80 knots
+- "High": wind 81-110 knots
+- "Extreme": wind \> 110 knots
+
+For your `Q2` output, summarize the number of observations in each intensity level by year using a new variable named "count", spanning all years in the dataset (1975-2022).
+
+::: callout-note
+If you're not familiar with the terminology, "knots" is short for **nautical miles per hour**.
+:::
+
+------------------------------------------------------------------------
+
+## Question 3: Multiple Grouping with `if_else()`
+
+Create a new column called `major_hurricane` using `if_else()` or direct `mutate()` that returns TRUE when status equals "hurricane" AND wind speed is ≥ 96 knots, FALSE otherwise.
+
+Group by `year` and `major_hurricane`, then calculate the count of observations. Filter to show only years 2015-2020. Save the output to `Q3`.
+
+------------------------------------------------------------------------
+
+## Question 4: Advanced Conditional Logic
+
+Create a column called `season_period` using `case_when()` based on the `month` variable:
+
+- "Early": months 1-6
+- "Peak": months 7-10\
+- "Late": months 11-12
+
+Group by `season_period` and `status`, then calculate the average wind speed and count of storms. Filter to show only "hurricane" and "tropical storm" statuses, and save your output to `Q4`.
+
+------------------------------------------------------------------------
+
+## Question 5: Complex Grouping and Summarizing
+
+In your `Q5` data frame, group the data by `name` (storm name) and calculate:
+
+- `max_wind` = Maximum wind speed reached
+- `min_pressure` = Minimum pressure reached (excluding missing values)
+- `days_tracked` = Number of days tracked (count of distinct dates)
+- `reached_hurricane` = Whether it ever reached hurricane status (use `any(status == "hurricane")`)
+
+Filter to show only storms that were tracked for at least 5 days **and** reached hurricane status. Arrange by maximum wind speed in descending order and show **only** the top 10 storms.
+
+::: callout-tip
+There are a few different ways to solve the "number of days tracked" portion of this, but I recommend the most direct approach. Use the base R function `paste()` to combine year, month, and day into a numeric representation of each date (e.g., combine "2025" and "02" and "03" so they become "20250203"), then use the dplyr function `n_distinct()` to retrieve the count. This can all be done in a single summarization.
+
+The `any()` function is a base R function that returns `TRUE` whenever it finds at least one value in a group that meets the criteria you specify. In this case, it will return true for any storm if that storm ever met the conditions for a hurricane.
+:::
+
+------------------------------------------------------------------------
+
+## Question 6: Visualizing Yearly Storm Data
+
+Create a new ggplot object named `Q6`. Use the `Q2` data frame you created earlier to visualize the yearly count of storms of intensity level using `geom_line()`. Years should go on your X axis and count of storms on the Y axis. Use a color aesthetic to split up the storms by their intensity level. Then add a title and caption (run `?storms` in your RStudio console to view the dataset documentation for source details), and label all of your aesthetics.
+
+Do you notice changes in the frequency of Atlantic Ocean storms and hurricanes from 1975 to 2022?
+
+------------------------------------------------------------------------
