@@ -226,16 +226,7 @@ Begin by creating a scatterplot with the following requirements:
 - Add labels
 
 ```{r}
-wdi_data |>
-  filter(year == 2020, !is.na(gdp_per_cap), !is.na(life_exp)) |>
-  ggplot(aes(x = gdp_per_cap, y = life_exp)) +
-  geom_point(aes(color = region)) + 
-  labs(
-    title = "GDP vs Life Expectancy, 2020",
-    x     = "GDP per Capita (USD)",
-    y     = "Life Expectancy (years)"
-  ) +
-  theme_minimal()
+
 ```
 
 Now that we have a working example, let's translate this into a function. Name it `plot_gdp_vs_life_exp`, give it arguments for both data and year, and pass those arguments into the function.
