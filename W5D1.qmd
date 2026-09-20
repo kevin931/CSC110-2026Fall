@@ -1,0 +1,271 @@
+---
+title: "W5D1"
+format: typst
+---
+
+# Goals for Today's Class
+
+- Learn how to define custom functions in the R programming language
+- Learn how to use functions to streamline repetitive operations like data transformation and data visualization
+
+# Setup
+
+You know the drill: load the packages and data!
+
+```{r setup, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message=FALSE)
+library(tidyverse)
+
+wdi_data <- read_delim("./data/worldbank_ex09.csv", delim = "|")
+```
+
+## Functions
+
+> A good rule of thumb is to consider writing a function whenever you’ve copied and pasted a block of code more than twice (i.e. you now have three copies of the same code).
+
+[Source: R4DS Chapter 25](https://r4ds.hadley.nz/functions.html#:~:text=A%20good%20rule%20of%20thumb%20is%20to%20consider%20writing%20a%20function%20whenever%20you%E2%80%99ve%20copied%20and%20pasted%20a%20block%20of%20code%20more%20than%20twice%20(i.e.%C2%A0you%20now%20have%20three%20copies%20of%20the%20same%20code).){target="_blank"}
+
+## Why functions?
+
+- **Reduce code repetition** (DRY principle: Don't Repeat Yourself)
+- **Improve code readability** and organization
+- **Easier debugging** - fix code in one place
+- **Reusability** across projects
+- **Collaboration** - share standardized tools with team members
+
+## Basic syntax
+
+1.  Define the function name and its arguments
+2.  Body: Define what the function does
+3.  Define its output
+
+## Simple example (implicit return)
+
+```{r}
+
+```
+
+Usage:
+
+```{r}
+
+```
+
+## Simple example (explicit return)
+
+```{r}
+
+```
+
+Usage:
+
+```{r}
+
+```
+
+## Working with data frames
+
+```{r}
+
+```
+
+Usage:
+
+```{r}
+
+```
+
+## BAD
+
+```{r}
+
+```
+
+Usage:
+
+```{r}
+
+```
+
+Why doesn't this return any results when we call the function?
+
+## FIXED
+
+```{r}
+
+```
+
+Usage:
+
+```{r}
+
+```
+
+------------------------------------------------------------------------
+
+# Part 1: Basics of writing functions
+
+## Exercise 1
+
+Define a function that performs 1 + 1, then invoke that function to see the result.
+
+```{r}
+
+```
+
+## Exercise 2
+
+Define a function that accepts a numeric argument and multiplies it by two. Then invoke that function with an input of your choice to see the result!
+
+```{r}
+
+```
+
+## Exercise 3
+
+Assuming you have two numbers, `startval` and `endval`, write a function named `calculate_growth_rate` that outputs the percentage growth rate between these two numbers. Use `scales::percent()` to format the output as a percentage.
+
+Here's the formula for calculating growth rate if you need a refresher:
+
+$$
+\frac{\text{endval} - \text{startval}}{\text{startval}}
+$$
+
+Invoke that function using two random numbers of your choosing, and check the results.
+
+```{r}
+
+```
+
+------------------------------------------------------------------------
+
+# Part 2: Data frame functions
+
+In this section, we'll experiment with writing custom functions that accept data frames as inputs, perform transformations against them, and output the transformed data frames (like pretty much all of the dplyr functions we've learned so far!).
+
+Assume we have a data frame containing several numeric variables we want to analyze. Further assume we want to generate a summary table that displays a variety of summary statistics about each of these variables like min/max, quartiles, median, mean, standard deviation, etc.
+
+With the techniques we've learned up to this point, we would probably write a bunch of repetitive dplyr code for each of our variables. Then we can save those to data frames and use `bind_rows()` to stitch everything together!
+
+But surely there's a more efficient way to accomplish that, right?
+
+That's another area where functions can really help us out, by streamlining repetitive operations. And this works with both dplyr pipelines and ggplot2 visualizations as we'll see in the rest of this exercise.
+
+For this next exercise, let's start by glimpsing the World Bank data we imported during setup. Make note of what each row/observation represents, and note some of the variables that are included.
+
+```{r}
+
+```
+
+We can see there are four numerical variables we might want to analyze:
+
+- `gdp_per_cap`: The gross domestic product (GDP) per capita
+- `life_exp`: life expectancy at birth (years)
+- `pop`: total population
+- `internet`: internet users as a percentage of the population
+
+Remember: our goal is to make it easier to generate summary statistics for several variables, and do it in the most efficient way possible. That's where our function comes in.
+
+Writing a new function often begins with writing an example of what we're trying to accomplish. In this case, we want our function to generate a statistical summary of a given variable for ALL countries in a given year. So let's write out a quick dplyr pipeline that accomplishes that.
+
+The requirements: - Filter out NA values for the chosen variable - Filter on only the year 2020 - Calculate min, max, median, mean, and standard deviation of the variable - Include the name of the variable and the year as the first two columns in our summary
+
+```{r}
+
+```
+
+Once we've established our example works, we can then begin the work of translating this into a function with inputs and outputs!
+
+So let's create a function named `calc_stats_by_year` that does everything we just accomplished, but with the added flexibility of being able to easily swap different inputs and outputs.
+
+To begin we can copy the code from our previous block, then wrap the whole thing inside our function notation. *Don't forget to indent your code for cleanliness and readability!*
+
+Once you've defined your input arguments for the function, we can start replacing the variables from our original code block with these new arguments. This requires us to do a few new things, though:
+
+- First, we need to define a data frame argument. This is the data frame we are passing to our function for evaluation.
+- Then we need to tell the function to interpret our variable name (e.g., `gdp_per_cap`) as a column within the data frame. If we don't do this step, it will simply treat our input as a string constant. To do this, we need to wrap the input inside of an **embrace operator** (`{{ x }}`). This translates the variable name into something our function can utilize!
+- Finally, if we want to include the variable name and year as columns in our output, we need to convert them into a usable data format.
+
+```{r}
+
+```
+
+After we've written out the function, we can execute the code to add it to our workspace. This will allow us to invoke the function in any code blocks that come AFTER the code block that creates it.
+
+::: callout-important
+Remember that Quarto code blocks are executed sequentially from start to finish. If you want to write helper functions when working on a project in R, it's generally best to write that function at the top of your document, directly after your setup block, so it can be used throughout the entire project.
+:::
+
+Then, to see the fruits of our labor, we can invoke the function a few times. Let's do two scenarios:
+
+- Use `bind_rows()` to run our new `calc_stats_by_year()` function three times for the year 2020, alternating between the `life_exp`, `pop`, and `gdp_per_cap` variables.
+- Use `bind_rows()` to do it again, but this time using only the `life_exp` variable, returning data from all years between 2015 and 2020.
+
+::: callout-tip
+If you get scientific notation in your results, you can run `options(scipen = 999)` to turn it off!
+:::
+
+```{r}
+
+```
+
+------------------------------------------------------------------------
+
+# Part 3: ggplot functions
+
+The final part of our lesson today will ask us to write a function that basically acts as a template for a ggplot2 data visualization. We'll define the visualization, then wrap it in a function and use input parameters to control how it gets created.
+
+Assume our goal is to find the most efficient way to visualize the relationship between two variables across several years, but we don't want to use faceting because we think it makes our plots too small.
+
+Begin by creating a scatterplot with the following requirements:
+
+- Starting from the data frame `wdi_data`, pipe to a filter
+- Filter on one year (doesn't matter which), and remove NA values for both `gdp_per_cap` and `life_exp`
+- Pipe to a scatterplot that visualizes the impact of `gdp_per_cap` on `life_exp`
+- Color each country based on its region
+- Add labels
+
+```{r}
+wdi_data |>
+  filter(year == 2020, !is.na(gdp_per_cap), !is.na(life_exp)) |>
+  ggplot(aes(x = gdp_per_cap, y = life_exp)) +
+  geom_point(aes(color = region)) + 
+  labs(
+    title = "GDP vs Life Expectancy, 2020",
+    x     = "GDP per Capita (USD)",
+    y     = "Life Expectancy (years)"
+  ) +
+  theme_minimal()
+```
+
+Now that we have a working example, let's translate this into a function. Name it `plot_gdp_vs_life_exp`, give it arguments for both data and year, and pass those arguments into the function.
+
+```{r}
+
+```
+
+Now we can invoke our function several times (with different years each time) to see how this allows us to most efficiently produce all of these plots:
+
+```{r}
+
+```
+
+One of the really awesome things about creating a "template" function like this is that, when we need to make adjustments to the template, we only need to make those changes in one place! We don't need to go back and adjust our code in six different places (which dramatically increases the likelihood of human error happening).
+
+To demonstrate, let's add a few more enhancements like a trend line and some log scaling so we can account for the distribution of our data:
+
+```{r}
+
+```
+
+Then let's re-run the same code from before and see the results:
+
+```{r}
+
+```
+
+------------------------------------------------------------------------
+
+::: callout-important
+You've reached the end of the exercise!
+:::
