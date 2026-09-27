@@ -1,0 +1,179 @@
+---
+title: "W6D1"
+format: typst
+---
+
+# Announcements
+
+- **LAST CALL**: Data Wrangle Registration
+
+  - Extra credit opportunities
+
+- Homework 6 **cancelled**
+
+- Lab 2 **extended** to Oct. 6, 2026
+
+# Goals for today
+
+- Learn how to write a good research question (RQ)
+- Small group activity critiquing different research questions
+- Workshop research question ideas for the final project
+
+# The importance of a good question
+
+> “If I had an hour to solve a problem and my life depended on it, I would use the first 55 minutes determining the proper question to ask, for once I know the proper question, I could solve the problem in less than 5 minutes.” —Albert Einstein
+
+## Basic RQ example
+
+> “What is the relationship between \[independent variable\] and \[dependent variable\] for \[target population\]?”
+
+::: callout-tip
+Start here, but you can (and should) revise this formula on your own to match what you really want to know about your topic!
+:::
+
+## The process for developing RQ's
+
+- **Reflect** on what you want to know, why, and for whom
+- **Brainstorm** a range of topics
+- **Prioritize** based on likely value to stakeholders
+- **Assess** strength of questions and refine as needed
+
+## Brainstorming
+
+- "I'm taking an ENV class this term, and I would like to explore an environmental justice issue."
+- "I'm intrigued by the potential impact of coal mines on the wellbeing of communities in West Virginia."
+- **Possible RQ: "What is the relationship between a West Virginia community's proximity to coal mines and its rates of COPD and lung cancer among the adult population?"**
+
+## Brainstorming
+
+- "I'm a political science major who is interested in community social work in urban areas."
+- "I'm particularly curious about what causes voter engagement to differ across geographies."
+- **Possible RQ: "What influence does housing density have over voter participation rates in urban commuting zones? Do people in higher density areas benefit from greater social cohesion that might yield increased voter participation?"**
+
+## Basic RQ structure {.smaller}
+
+A good research question generally has the following features:
+
+- It is written in the form of a question
+- It cannot be answered with “yes” or “no”
+- It has more than one plausible answer
+- It considers relationships between multiple variables
+- It is specific and clear about the concepts it addresses
+- It includes a target population
+
+## The FINER method {.smaller}
+
+After you have drafted your RQ, ask yourself the following questions:
+
+- **Feasible**: Is there data that helps me answer my RQ?
+- **Interesting**: Do I find the RQ compelling? Would my audience?
+- **Novel**: Have we **not** already discussed this topic in class?
+- **Ethical**: Is my data collected honestly?
+- **Relevant**: Does my RQ address a real-world JEC issue?
+
+If you can answer **yes** to these questions, your RQ has a great chance of success on the final project.
+
+## Exploratory research
+
+Right now, you should be in exploratory mode: you might have a dependent variable you're interested in (i.e., women's voter participation), but you're not sure what independent variables you want to focus on. So, your question might be, "What factors influence voter participation among women without a college education?"
+
+**This at least gives you a starting point, and you can narrow it down from here.**
+
+## Exploratory research (II)
+
+On the other hand, maybe you already know your independent variable: maybe you're interested in studying the outcomes of decades of falling employment rates among white men in the "Rust Belt" states like Indiana, Ohio, and Pennsylvania.
+
+Again, asking a question gets you started.
+
+------------------------------------------------------------------------
+
+# Small group activity 1
+
+- **Format**:
+  - Each team spends 1 minute talking about the question
+  - Then, 2 teams will share your thoughts
+  - Teams will take turns
+- **Task**: Given a list of 8 hypothetical research questions, assess each RQ and determine:
+  - Is it a good research question?
+  - Why, or why not?
+
+1.  How does access to affordable housing influence the mental health outcomes of low-income families in urban areas?
+
+::: {.callout-note appearance="simple"}
+**Notes:**
+:::
+
+2.  What is the unemployment rate in the United States?
+
+::: {.callout-note appearance="simple"}
+**Notes:**
+:::
+
+3.  To what extent do educational attainment and employment opportunities correlate among minority groups in metropolitan cities?
+
+::: {.callout-note appearance="simple"}
+**Notes:**
+:::
+
+4.  Is there a relationship between income inequality and crime rates?
+
+::: {.callout-note appearance="simple"}
+**Notes:**
+:::
+
+5.  How has the implementation of a universal basic income impacted poverty levels and economic mobility among diverse communities in Canada?
+
+::: {.callout-note appearance="simple"}
+**Notes:**
+:::
+
+6.  How can social media platforms be utilized to raise awareness about economic justice?
+
+::: {.callout-note appearance="simple"}
+**Notes:**
+:::
+
+7.  How do government welfare programs affect the labor market participation of single-parent households in rural regions?
+
+::: {.callout-note appearance="simple"}
+**Notes:**
+:::
+
+8.  What factors contribute to wage disparities between different racial and ethnic groups in the tech industry, and how have policies aimed at resolving these disparities performed?
+
+::: {.callout-note appearance="simple"}
+**Notes:**
+:::
+
+------------------------------------------------------------------------
+
+# Group activity 2
+
+## Stage 1:
+
+- **Time:** 5 minutes
+- **Task:** Revisit your RQs from Project Checkpoint 1. Workshop your RQs the same way we did with the questions in activity 1.
+
+## Stage 2:
+
+- **Time:** 5 minutes
+- **Task:**
+  - Share your RQs with a neighboring group. Give each other feedback.
+  - Each team will elect a representative
+
+::: {.callout-tip appearance="simple"}
+This class is a collaborative learning environment. Do not be afraid to share your RQs with the class. Even if people have similar ideas, the collective wisdom of a few teams will have greater benefits than not sharing your ideas at all!
+:::
+
+## Stage 3:
+
+- **Time:** Until the end of class
+- **Task:**
+  - Each team shares the RQ of your neighboring team
+  - Provide feedback for your neighboring team as talked about
+
+::: {.callout-tip appearance="simple"}
+**Tip**: When providing feedback for other teams, use constructive language that provides what you like about their ideas and how they may improve. Be kind to your classmates and help them improve.
+:::
+
+------------------------------------------------------------------------
