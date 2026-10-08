@@ -3,6 +3,13 @@ title: "W7D2"
 format: typst
 ---
 
+# Announcements
+
+- Poll and activity
+- Review 2 next week
+- Project Checkpoint 2 due in 2 weeks
+
+
 # Goals for this class
 
 -   Learn how to use filtering joins like `semi_join()` and `anti_join()` to merge two tables or data frames together and filter their product based on attributes they have in common.
