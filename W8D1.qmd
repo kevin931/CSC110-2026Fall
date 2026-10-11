@@ -1,0 +1,229 @@
+---
+title: "W8D1"
+format: typst
+---
+
+# Announcements
+
+- Review this week
+- Project checkpoint 2 released
+
+```{r setup, warning = F, message=F}
+library(tidyverse)
+library(patchwork)
+library(readxl)
+```
+
+# Goals for this class
+
+- Learn how to use the `pivot_longer()` function to take column-wise data and transform it into row-wise data.
+- Learn how to use the `pivot_wider()` function to take row-wise data and transform it into column-wise data.
+
+# Tidy data
+
+This class focuses on the idea of **tidying data**, which means reorganizing to make it easier to analyze and visualize.
+
+This is different from **data transformation**, in which we learned how to filter and clean up the data to remove irrelevant or anomalous values.
+
+It's also different from **joining data**, although it is closely related and often done in conjunction.
+
+## Pivoting Longer
+
+`pivot_longer()` allows us to take column-wise data and rotate it 90 degrees into row-wise data.
+
+## Pivoting wider
+
+The `pivot_wider()` function is the evil twin of `pivot_longer()`. It takes row-wise data and rotates it 90 degrees into a column-wise structure.
+
+We use `pivot_wider()` when a single observation's data is spread across multiple rows, and we need to condense into a single row.
+
+We are going to use this function **a lot** when we start working with U.S. Census Bureau data in the coming weeks!
+
+## Pivot Wider Example
+
+Our starting dataset (example survey data):
+
+```{r}
+survey_data <- tibble(
+  respondent_id = c("A", "A", "A", "B", "B", "B"),
+  question = c("age", "gender", "income", "age", "gender", "income"),
+  response = c(25, "Male", 50000, 30, "Female", 60000))
+
+survey_data
+```
+
+Now let's put this into the tidy-data format:
+
+```{r}
+
+```
+
+::: callout-note
+Note that both income and age are `character`, which R treates as categorical. For future analyses, we need to transform it to numeric data.
+:::
+
+## Pivot Longer Example
+
+Now that we've done the work, let's pivot it back:
+
+```{r}
+
+```
+
+::: callout-note
+Again, we need to make sure that all columns are of the same type, which can be slightly inconvenient at time.
+:::
+
+------------------------------------------------------------------------
+
+> “Tidy datasets are all alike, but every messy dataset is messy in its own way.” — Hadley Wickham
+
+# Setup
+
+Then let's load our dataset for today:
+
+```{r}
+
+```
+
+The data should look familiar: it's from Lab 02!
+
+The school data from the Common Core Dataset gives us a great example to showcase the effectiveness of the `pivot_longer()` function.
+
+Before we do that, though, let's set the stage by using `mutate()` to calculate the percentages of our different race/ethnicity categories, just like you did when you completed the lab. I've added a couple of additional arguments to this example, so consult the documentation for the `mutate()` function to find out what these do.
+
+::: callout-note
+Let's reduce the number of columns we are working with in this exercise, excluding the `pct_poc` and `pct_other` variables we computed in Lab 02, to make the data frame smaller for ease of instruction.
+:::
+
+```{r}
+
+```
+
+# Exercises
+
+## Part 1: Pivoting longer
+
+If you recall, Lab 02 was a lot of copy & paste: in order to build your various scatterplots and boxplots, you needed to get the code right for the first variable, like `pct_black`, then copy that code and paste it in the next block, change the variable to something like `pct_asian`, then wash, rinse, and repeat.
+
+Using `pivot_longer()` with a column-wise data structure like the one in Lab 02 (and what we have here) can drastically cut down on the amount of code you need to write to achieve similar output.
+
+### Step 1: First pivot
+
+The goal here is to pivot our `schools` data frame, taking the column-wise data and rotating it 90 degrees into row-wise data. Let's start with a quick example, which we will call the **explicit method**, where we specify each individual column we want to pivot:
+
+```{r}
+
+```
+
+Note how this operation takes the column names we originally had and transposes them into a single column with a `<chr>` (character/text) data type. It does the same thing with the values that we had within each column, transposing them into a separate column with a `<dbl>` (numeric) data type.
+
+Note how the code was written:
+
+- In the `cols` argument, we specify a list of the columns we want to pivot, in the order we want to pivot them.
+- The `names_to` argument is the name we want to give to the column which will store the names of the columns we are pivoting.
+- The `values_to` argument is the name we want to give to the column which will store the percent values.
+
+### Step 2: Your turn!
+
+In this step, I want you to take 5 minutes on your own or with a partner, and try to find two more ways (other than the explicit list selection I just showed you) to select your variables using `pivot_longer()` by looking at [the documentation](https://tidyr.tidyverse.org/reference/pivot_longer.html){target="_blank"}
+
+Put your first method here:
+
+```{r}
+
+```
+
+And your second method here:
+
+```{r}
+
+```
+
+### Step 3: Tidying column names
+
+Now let's look at some ways to clean up column names. We'll start with a more manual approach where we explicitly rename each variable before the pivot using `rename()`:
+
+```{r}
+
+```
+
+There's another way we can do this that's even simpler and less manual, though, and it involves using the `names_prefix` argument of `pivot_longer()`. In the next code block, use this method when pivoting, and save the output to a new data frame named `schools_pivoted`:
+
+```{r}
+
+```
+
+This approach works because of the consistent naming of our columns: each one starts with "pct\_" and ends with the name of a racial category like black, white, asian, or hisp(anic). Of course, your data won't always be this clean, so take this measure with a grain of salt and always pay attention to how your variables are named, because consistency can make your life easier, but consistency is not always a feature of the data you will work with.
+
+### Step 4: Plotting pivoted data
+
+To show how much easier pivoting can make our lives, let's take the `schools_pivoted` data frame we just created and plot it in two different ways to show the distribution of races/ethicities within the school system: first with a boxplot, then with a faceted histogram:
+
+```{r, warning = F, message = F}
+
+```
+
+::: callout-note
+Use this as an opportunity to reflect on the code that it took to visualize this pivoted data, versus the code that was required to visualize the racial categories in Lab 02. Because of how each race was in a different variable in Lab 02, you were forced to repeat the same plots over and over again, but with different variables, just so you could compare across racial categories. **However**, with our pivoted data frame here, we can represent the demographic breakdown by state in a single plot with a minimal amount of code.
+:::
+
+## Part 2: Pivoting wider
+
+For this part, we're going to introduce you to `pivot_wider()` using the `us_rent_income` data frame that is included with the tidyverse. This data frame is a small subset of data that was captured from the 2017 [American Community Survey (ACS)](https://www.census.gov/programs-surveys/acs/about.html), a data product of the United States Census Bureau.
+
+Like we discussed in the slides, `pivot_wider()` is the "evil twin" of `pivot_longer()` because it does the same thing, but in reverse.
+
+To demonstrate what "pivoting wider" can do, let's begin by previewing the data frame by simply invoking its name:
+
+```{r}
+us_rent_income
+```
+
+::: callout-important
+Note the structure of the data. We have multiple rows per US state, with each state having variables for income and rent. Probably the best way to express the grain of this dataset is **one row per state per variable**.
+
+But also note that each variable row (income and rent) has two dependent columns: `estimate` and `moe`. These particular columns are very common in the ACS data. The `moe` column stands for "Margin of Error," and it is dependent upon the `estimate` column.
+
+In stats speak, the **sampling error** of survey data is the difference between an estimate based on a sample and the corresponding value that would be obtained if the estimate were based on the entire population. Margin of Error (MOE) is a commonly-used statistic that can express the magnitude of this sampling error.
+
+Put simply, **MOE is a statistic that expresses the range of uncertainty in our estimates.** The larger the MOE relative to the estimate, the greater the amount of uncertainty or variability. Put another way: MOE is a measure of reliability that tells us how much our data may differ from real-world observations.
+
+Adding the MOE to the estimate provides an upper limit and subtracting the MOE from the estimate provides a lower limit of the range where the true value (meaning the value for the entire population, not just the sample) of the estimate most likely actually falls.
+:::
+
+### Step 1
+
+In this step, we'll use `pivot_wider()` to put our `estimate` and `moe` variables into the columns of our dataset. This will also have the effect of reorganizing our dataset into one with a grain of **one row per state**.
+
+```{r}
+
+```
+
+::: callout-note
+Note what `pivot_wider()` does here: it effectively replaces our original columns with new ones, where the values in our original `variables` column ("income" and "rent") become suffixes for the column names, while the `estimate` and `moe` measures become the column prefixes.
+:::
+
+### Step 2
+
+If we want to see the **range of uncertainty** that our MOE variable gives us, as mentioned above, all we need to do is a little bit of addition and subtraction.
+
+To illustrate, let's pipe our income data into a `mutate()` function BEFORE we pipe it into `pivot_wider()`:
+
+```{r}
+
+```
+
+::: callout-tip
+**"Why are we talking about pivoting now?"**
+
+We're about to enter the part of the semester where we work with a lot of data from the U.S. Census Bureau, one of the best primary data sources we have about residents of the United States, including their demographic characteristics, careers, income, etc. Instead of using prepared Census datasets like the one we just used from the tidyverse, we will be getting our datasets directly from the source, from the Census Bureau itself, via the `tidycensus` package.
+
+As this lesson just demonstrated, Census Bureau data tends to come to us in a "row-wise" format, expressed with a grain of one row per geographic area per variable. In other words, you will be encountering a lot of data that needs to be pivoted WIDER so we can produce a tidy dataset where each variable is contained in its own column. The `pivot_wider()` function helps us do this, so we will be using it a lot in the coming weeks!
+:::
+
+------------------------------------------------------------------------
+
+::: callout-important
+You've reached the end of the exercise!
+:::
