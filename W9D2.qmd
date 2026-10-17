@@ -1,0 +1,192 @@
+---
+title: "W9D2"
+format: typst
+---
+
+# Goals
+
+- Learn how to use `load_variables()` to explore the different variables that are available in tidycensus
+- Use the knowledge gained in our last class session to query more census data and pipe it through a series of transformations to make it ready for analysis.
+
+# Setup
+
+As per usual, let's load our packages.
+
+```{r setup, output=F}
+knitr::opts_chunk$set(echo = TRUE, message = F, warning=F)
+library(tidyverse)
+library(tidycensus)
+```
+
+## tidycensus challenges
+
+Due to the sheer number of variables in the Census Bureau datasets (tens of thousands!) the biggest challenge we face when working with tidycensus is finding out **which variables** you need to use to answer your research question. Today's lesson walks us through this.
+
+## Recap: finding variables
+
+```{r}
+  
+```
+
+1.  Call the `load_variables()` function
+2.  Specify the year
+3.  Specify the dataset
+
+# Exercises
+
+## Part 1
+
+In Part 1, let's introduce the `load_variables()` function and how to use it to retrieve a table of yearly variables from the Census Bureau.
+
+When using `load_variables()`, there are two arguments we need to supply:
+
+- `year`: the year of the census data we want to retrieve
+- `dataset` the specific dataset we want to retrieve (e.g., "acs5" for the 5-year ACS estimates)
+
+### Exercise 1
+
+Census data, whether it comes from the decennial census or the ACS, consists of a number of different files. With the decennial census, you can get thorough demographics and housing data from the `dhc` dataset. In older versions of the decennial census, you can get comprehensive data from the "summary files" `sf1` and `sf2`.
+
+Let's use our `load_variables()` function to retrieve the DHC data for the 2020 census:
+
+```{r, message=F}
+
+```
+
+Immediately you can see the scale of the task in front of us: there are almost **9,000 variables** in the 2020 decennial census. Each variable has a code and a label, and it belongs to a "concept" which is used to group similar variables together.
+
+### Exercise 2
+
+Recall from our last class that the ACS collects a lot more fine-grained data than the decennial does. This definitely has implications for the amount of data these different data sources can return to us.
+
+To contrast the amount of variables between decennial and ACS, let's use `load_variables()` again, but this time let's zero in on one of our ACS datasets.
+
+```{r}
+
+```
+
+We can see that the ACS dataset contains **over 28,000 different variables** for us to potentially analyze.
+
+This illustrates one of the biggest challenges when working with tidycensus data: finding and choosing the right variables to answer your questions! Discovering these variables can often seem like a weird scavenger hunt.
+
+## Part 2
+
+For this next part, let's examine a different ACS dataset, and let's focus in on a specific research question: **How much of their income are residents of Mecklenburg County, NC, spending on housing costs?**
+
+### Exercise 3
+
+First, we need to find the right variables. Let's create a new data frame named `rent_vars` that collects the variables from the 2020 ACS 5-year estimate.
+
+```{r}
+
+```
+
+OK, we've got almost 28,000 variables to choose from. Let's try to narrow our search.
+
+### Exercise 4
+
+Let's try a little bit of grouping and summarizing. Pipe the `rent_vars` data frame to show **distinct** concepts and a count of variables for each concept, searching for any concepts that contain the key phrase "PERCENTAGE OF HOUSEHOLD INCOME" (needs to be in all caps):
+
+```{r}
+
+```
+
+::: callout-note
+Of the ten variables we have available to us here, which of these makes the most sense for our research question?
+
+Again, we are asking: **How much of their income are residents of Mecklenburg County, NC, spending on housing costs?**
+:::
+
+### Exercise 5
+
+Before we go any futher, let's ask ourselves a question: **How many variables do we need to recreate the CRF bar chart?**
+
+Once we've figured out this answer, let's see if we can retrieve the necessary variables from our `rent_vars` data frame.
+
+```{r}
+
+```
+
+### Exercise 6
+
+Once we've identified the variables we need, it's easy to load them into a character vector using our assignment operator:
+
+```{r}
+
+```
+
+## Part 3
+
+Now that we know what variables to use, let's retrieve the actual ACS data and try to recreate the CRF bar chart.
+
+### Exercise 7
+
+First, let's use `get_acs()` with the `acs_variables` vector and the `v_year` variable to retrieve the data, then let's run it through a pipeline to produce a data frame named `crf_data` that contains only the data we need to make this chart.
+
+```{r}
+
+```
+
+### Exercise 8
+
+Now let's use `ggplot2` to visualize the results from our `crf_data` data frame.
+
+```{r}
+
+```
+
+::: callout-important
+**Compare your result to the dashboard. What are the differences?**
+:::
+
+## Part 4
+
+Let's use this final part of the exercise to get this chart closer to the final product created by the CRF team.
+
+To make aligning the colors easier, you can use this prepared color palette, which is created by simply stringing together a series of 6-digit hex codes inside of the `c()` function to create a list.
+
+```{r}
+crf_palette <- c("#F8766D", 
+                 "#00A9FF", 
+                 "#00BE67", 
+                 "#CD9600", 
+                 "#7CAE00", 
+                 "#00BFC4", 
+                 "#C77CFF", 
+                 "#FF61CC")
+```
+
+### Exercise 9
+
+Resolve the differences between your chart and the CRF chart using:
+
+- `factor()`
+- `scale_fill_manual()` (using our_palette)
+- `scale_x_continuous()`
+- `labs()`
+
+```{r}
+inclevel <- c("Less than $10,000",
+             "$10,000 to $19,999",
+             "$20,000 to $34,999",
+             "$35,000 to $49,999",
+             "$50,000 to $74,999",
+             "$75,000 to $99,999",
+             "$100,000 or more")
+
+pctlevel <- c("Less than 20.0 %",
+              "20.0 to 24.9 %",
+              "25.0 to 29.9 %",
+              "30.0 to 34.9 %",
+              "35.0 to 39.9 %",
+              "40.0 to 49.9 %",
+              "50.0 % or more")
+
+
+```
+
+------------------------------------------------------------------------
+
+::: callout-important
+You've reached the end of the exercise!
+:::

@@ -1,0 +1,283 @@
+---
+title: "W9D1"
+format: typst
+execute:
+  message: false
+---
+
+# Setup
+
+First, let's load the two packages we need for this class, which are tidycensus and tidyverse.
+
+```{r setup, message = F, warning=F}
+library(tidyverse)
+library(tidycensus)
+```
+
+# Agenda
+
+- Discuss APIs in modern data architecture
+- Introduce the Decennial Census
+- Introduce the American Community Survey (ACS)
+- Differences between Decennial Census and ACS
+- In-class activity
+
+# Concepts for this Class
+
+## APIs
+
+- API = Application Programming Interface
+- Software that sits on top of another system and can be used to interact with it.
+- Most modern systems have one or more APIs, and each API often has multiple “endpoints” that can perform various tasks with the data.
+- APIs can be invoked directly from your code, or indirectly via functions that are included with certain R packages (like tidycensus!)
+
+## API Key
+
+You need a Census API key for using `tidycensus`: <http://api.census.gov/data/key_signup.html>. You can then store this key in RStudio using `tidycensus::census_api_key("",install=TRUE)`
+
+## tidycensus
+
+**tidycensus** is an R package that allows users to interface with the US Census Bureau’s APIs and return tidyverse-ready data frames for the decennial and ACS datasets.
+
+It is created and maintained by **Kyle Walker**, a professor at Texas Christian University (TCU).
+
+Dr. Walker wrote the [Analyzing US Census Data](https://walker-data.com/census-r/index.html){target="_blank"} textbook we are using for this portion of the course.
+
+## The Decennial Census
+
+- Conducted every 10 years.
+- The last three were conducted in 2020, 2010, and 2000.
+- Goal: to provide a reliable **point-in-time** estimate of the official U.S. population to Congress.
+- Used for apportionment of congressional seats and distribution of federal funds.
+
+## American Community Survey (ACS)
+
+- An ongoing survey conducted every year.
+- Goal: to provide **period estimates (1-year, 3-year, and 5-year)** of the U.S. population.
+- Collects more detailed data, including age, race, income, commute time to work, home ownership, and other important community aspects.
+
+## Getting decennial data (basic)
+
+```{r}
+
+```
+
+1.  Call the `get_decennial()` function
+2.  Specify the year you want to retrieve
+3.  Specify the geography level you want
+4.  Specify the variable(s) you want
+
+::: callout-note
+This is a **basic** example. It can get a lot more complicated than this!
+:::
+
+## Getting ACS data (basic)
+
+```{r}
+
+```
+
+1.  Call the `get_acs()` function
+2.  Specify the year
+3.  Specify the **dataset** you want
+4.  Specify the geography level
+5.  Specify the variable(s)
+
+## Finding variables
+
+```{r}
+
+```
+
+1.  Call the `load_variables()` function
+2.  Specify the year
+3.  Specify the dataset
+
+::: callout-note
+We'll take a closer look at this in our next class!
+:::
+
+## Decennial vs. ACS
+
+- **Frequency**: Decennial is every 10 years, ACS is annually.
+- **Data granularity**: Decennial provides a complete enumeration, ACS provides estimates based on a sample.
+- **Detail level**: The decennial census is focused on counting the total population, whereas the ACS provides more detailed socioeconomic data.
+
+## Census resources
+
+- The [Walker textbook](https://walker-data.com/census-r/index.html){target="_blank"} we're reading is a useful guide for understanding how to get valuable data out of the tidycensus package.
+- The website [Social Explorer](https://www.socialexplorer.com/explore-maps){target="_blank"} is valuable for exploring census data, including data dictionaries that contain variable definitions, and an interactive "report builder" that lets you build your own data tables.
+- **Use these two resources together to ace this part of the class!**
+
+# In-class activity
+
+## Goals
+
+- Learn how to use `load_acs()` and `load_decennial()` to retrieve census data at varying geography levels
+- Learn the differences between ACS data and decennial census data
+
+## Exercises
+
+Let's begin our intro to tidycensus with the basics of how to query the data using the `get_decennial()` and `get_acs()` functions, which will be the two primary functions we use throughout this unit.
+
+### Part 1
+
+For the first part of today's exercise, we'll introduce `get_decennial()`.
+
+As you probably recall from the assigned reading (Walker):
+
+> The decennial US Census is intended to be a complete enumeration of the US population to assist with apportionment, which refers to the balanced arrangement of Congressional districts to ensure appropriate representation in the United States House of Representatives. It asks a limited set of questions on race, ethnicity, age, sex, and housing tenure.
+
+#### Exercise 1
+
+The `get_decennial()` function has several arguments we can use to specify what data we want to retrieve. The three main ones we'll start with are:
+
+- `year`: What year do we want to retrieve data for?
+- `geography`: What geographical unit do we want to return? (states, counties, census tracts, metro areas, etc.)
+- `variables`: A variable (or list of variables) that we want to retrieve.
+
+For this first exercise, we'll use the `P1_001N` variable, which is used in the 2020 decennial dataset to represent the total population of an area.
+
+::: callout-note
+There are literally hundreds of variables that are available through the tidycensus functions, so we're starting with an easy one. In a moment, I'll show you how to find a list of all available variables.
+:::
+
+```{r, message=F}
+
+```
+
+#### Exercise 2
+
+Now let's use the `variables` argument to select multiple variables. We can employ the `c()` function for this:
+
+```{r, message=F}
+
+```
+
+#### Exercise 3
+
+Something else we can do to polish our output from the Census Bureau API is to rename our variables inside the `c()` function. In this case, our first variable represents the overall population of whatever geographies we select, while our next two variables represent the number of people living in areas classified as urban versus rural. So let's rename them:
+
+```{r, message=F}
+
+```
+
+Note how this changes the output: instead of including the variable codes in the output, the API overwrites those with whatever variable name you give it.
+
+#### Exercise 4
+
+The `get_decennial()` and `get_acs()` functions have another argument we can use to structure our data a little differently and give us ways to calculate percentages from the raw data, and that's to use the `summary_var` argument.
+
+To demonstrate, let's make our `P001001` variable into our summary variable, and then let's calculate a "percentage" variable using `mutate()`:
+
+```{r, message=F}
+
+```
+
+Great! Now let's apply this knowledge in Part 2 as we explore the different levels of geographic data that tidycensus provides us with.
+
+### Part 2
+
+Let's use the second part of this exercise not only to introduce the `get_acs()` function for retrieving ACS data, but also to demonstrate how you can retrieve data at different geography levels.
+
+### Exercise 5
+
+So far we've been looking at state-level geography, but let's check out what happens when we switch to county-level data.
+
+```{r, message=F}
+
+```
+
+::: callout-important
+Note here one of the key distinctions between the data that returned from the ACS versus that which is returned from the decennial census: instead of columns named `value` and `summary_value`, we get `estimate` and `summary_est`, because these values are computed from survey data.
+
+Also note how our `moe` and `summary_moe` values are empty for this data.
+:::
+
+#### Exercise 6
+
+By supplying additional arguments to our functions, we can also zoom in on particular states, and even particular counties.
+
+```{r, message=F}
+
+```
+
+#### Exercise 7
+
+When our search area is small enough, like a particular state or county, it probably makes sense for us to choose a smaller geographic unit to analyze. So now let's look at some data at the level of the individual census tracts within Mecklenburg County, NC:
+
+```{r, message=F}
+
+```
+
+::: callout-important
+Now that we have moved our focus to a small enough geographical area (specific state and/or specific county), we can use smaller geographic units... in this case, **census tracts**. The ACS data is collected in small geographic units, which allows us now to see the margin of error (`moe`) variable so we can understand the level of uncertainty in our data.
+:::
+
+#### Exercise 8
+
+Another option which is especially useful if you're interested in data from urban areas is to search for "CBSA" geographies, which is "Core-Based Statistical Areas." These CBSAs are defined by the federal Office of Management and Budget (OMB), and contain urban areas and their surrounding communities. For example, the CBSA for the Charlotte area contains Mecklenburg about about a dozen surrounding counties in North and South Carolina.
+
+```{r, messgae = F}
+
+```
+
+#### Exercise 9
+
+Lastly, if you're interested in exploring data within particular school districts (perhaps because you're researching trends within public school systems), you can also use a few different geographies like:
+
+- school district (primary)
+- school district (secondary)
+- school district (unified)
+
+```{r, message=F}
+
+```
+
+### Part 3
+
+Big question: **How do we know what variable codes to look for?**
+
+U.S. census data is **massive** and byzantine in its structure, so finding the right variable and what it means can be a complicated affair.
+
+Luckily, there are a few methods you can use:
+
+#### load_variables
+
+The most direct way to get variable codes and descriptions into RStudio is by calling the `load_variables()` function, which is part of the tidycensus package. Our next lesson focuses very heavily on this method.
+
+```{r}
+
+```
+
+#### census.gov
+
+The census.gov website has an interactive data portal where you can explore their tables. Link: [Census Bureau Tables](https://data.census.gov/table){target="_blank"}
+
+This interface gives you some capability to explore the available tables and their variables.
+
+When searching for variables for the 2020 decennial census, I recommend you stick to the **Demographic and Housing Characteristics (DHC) dataset** because this has the most data. Again, this is a huge amount of data to work with, but the DHC dataset contains the most possibilities for your final project and other work you might want to do with census data.
+
+Another option under census.gov is their [developer portal](https://www.census.gov/data/developers.html){target="_blank"}, which has a lot of links to documentation that can be helpful for finding variables.
+
+Here are their [decennial datasets](https://www.census.gov/data/developers/data-sets/decennial-census.html){target="_blank"}
+
+And here are their [ACS 5-year datsets](https://www.census.gov/data/developers/data-sets/acs-5year.html){target="_blank"}
+
+These dataset pages link to helpful tables you can browse with codes and descriptions of their variables, such as: - [2020 decennial DHC variables](https://api.census.gov/data/2020/dec/dhc/variables.html){target="_blank"} - [2023 ACS 5-year variables](https://api.census.gov/data/2023/acs/acs5/variables.html){target="_blank"}
+
+::: callout-caution
+These tables are massive, so use your browser's built-in search features to do keyword searches for specific words and terms.
+:::
+
+#### Social Explorer
+
+[Social Explorer's data library](https://www.socialexplorer.com/data-library){target="_blank"} has a streamlined interface for interacting with census tables from both the ACS and the decennial census. They don't have the entire 2020 decennial census yet (they seem to be lacking the DHC dataset), but they have really good tools for exploring recent ACS datasets.
+
+The trick with the Social Explorer is that they use their own proprietary variable codes for census data, so when you find a variable you like and want to analyze with tidycensus, you need to drill down into the Social Explorer's data dictionary to find the equivalent census variable code.
+
+------------------------------------------------------------------------
+
+::: callout-important
+You've reached the end of the exercise!
+:::
