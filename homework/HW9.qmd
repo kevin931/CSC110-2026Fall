@@ -1,0 +1,134 @@
+---
+title: HW9
+format: typst
+---
+
+# Intro
+
+This assignment focuses on working with US Census data using the `tidycensus` package and wrangling it with `tidyverse` tools. You'll practice querying data from the Decennial Census and American Community Survey (ACS), transforming it with `dplyr` and `tidyr`, and creating visualizations with `ggplot2`.
+
+::: callout-note
+For this assignment, make sure to add appropriate labels to each visualization.
+:::
+
+## Setup
+
+Load the tidycensus and tidyverse packages in a setup block.
+
+```{r setup}
+knitr::opts_chunk$set(echo = TRUE, message = F, warning=F)
+
+library(tidycensus)
+library(tidyverse)
+```
+
+## Exercises
+
+### Question 1
+
+Use `load_variables()` to explore variables from the 2020 Decennial Census (dataset "pl"). Find variables related to race/ethnicity (look for table "P2") and housing (look for table "H1"). Save these variables to a data frame called `q1` and display your output.
+
+::: callout-tip
+The `str_detect()` function with regex pattern `"^P2_|^H1_"` will find variables from both tables
+:::
+
+```{r}
+
+```
+
+### Question 2
+
+Use `get_decennial()` to retrieve data on total population (`P1_001N`) and total housing units (`H1_001N`) for all counties in California from the 2020 Census and save it into a new data frame called `q2`. Then use `pivot_wider()` to create separate columns for population and housing units. Finally, calculate the ratio of housing units to population and arrange counties by this ratio in descending order.
+
+```{r}
+
+```
+
+**Expected output**:
+
+- Data frame named `q2`
+- 58 rows with 5 columns
+- Columns are `GEOID`, `NAME`, `population`, `housing_units`, and `housing_ratio`
+
+### Question 3
+
+Use `get_acs()` to retrieve data on mode of transportation to work (table `B08301`) for counties in Massachusetts from the 2022 ACS 5-year estimates. Use the following variables for the table `B08301`:
+
+- `B08301_002` = "Drove Alone",
+- `B08301_003` = "Carpooled",
+- `B08301_004` = "Public Transport",
+- `B08301_010` = "Bicycle",
+- `B08301_011` = "Walked",
+- `B08301_012` = "Other"
+
+This output should be stored in a data frame named `q3_df`. Use the `str_split()` function we learned in class to extract county names from the `NAME` variable.
+
+Then create a bar chart named `q3_plot` that visualizes the total number of workers for each mode of transportation. Make sure to add appropriate labels, a legend, and a title.
+
+Make sure to include both the data frame and the plot in your output!
+
+```{r}
+
+```
+
+**Expected output:**
+
+- Data frame named `q3_df` with 84 rows and 6 columns
+- Columns are `GEOID`, `NAME`, `variable`, `estimate`, `moe`, and `county`
+- Barchart object named `q3_plot` with `estimate` on X axis and `variable` on Y axis
+
+### Question 4
+
+Using the same MA transportation data from the previous question, create a faceted visualization with `facet_wrap()` that shows a separate bar chart for each transportation mode with one bar per county showing the estimate value.
+
+```{r}
+
+```
+
+**Expected output**:
+
+- Data frame named `q4_data` with 84 rows and 6 columns
+- Columns are `GEOID`, `NAME`, `variable`, `estimate`, `moe`, and `county`
+- Barchart object named `q4_plot` with `estimate` on X axis and `county` on Y axis, faceted by `variable`
+
+### Question 5
+
+Use `get_acs()` to retrieve data on household types (table `B11001`) for all counties in Texas from the latest 5-year ACS, specifically the following three variables:
+
+- `B11001_001` = Total households
+- `B11001_002` = Family households
+- `B11001_007` = Non-family households
+
+Then calculate the percentage of family and non-family households for each county. Create a new categorical variable called "household_type" that classifies each county as "Majority Family" (\>50% family households) or "Majority Non-Family" (\>50% non-family households). Finally, save the results to a data frame called `q5`.
+
+```{r}
+
+```
+
+**Expected output:**
+
+- Data frame named `q5` with 254 rows and 5 columns
+- Columns are `GEOID`, `NAME`, `family_hh`, `nonfamily_hh`, and `household_type`
+
+### Question 6
+
+Join the output from the previous question (`q5`) with another data frame that contains median household income data (`B19013_001` named as `median_hhi`) for all Texas counties. Name the joined output `q6_data`.
+
+Next, create two visualizations:
+
+- A scatterplot named `q6_plot1` showing the relationship between the % of family/non-family households (use `family_hh`) and the median household income (`median_hhi`), and add a color aesthetic that segments household types (family vs. non-family).
+
+- A boxplot named `q6_plot2` showing the distribution of median household income (`median_hhi`) on the Y axis against the household type (family vs. non-family on the X axis).
+
+```{r}
+
+```
+
+**Expected output**:
+
+- Data frame named `q6_data` with 254 rows and 6 columns
+- Columns are `GEOID`, `NAME`, `family_hh`, `nonfamily_hh`, `household_type`, and `median_hhi`
+- Scatterplot named `q6_plot1`
+- Boxplot named `q6_plot2`
+
+------------------------------------------------------------------------
