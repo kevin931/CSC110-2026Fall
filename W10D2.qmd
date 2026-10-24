@@ -1,0 +1,150 @@
+---
+title: "W10D2"
+format: typst
+---
+
+# Goals
+
+- Learn how to create different kinds of maps using the `tmap` and `sf` packages
+
+# Setup
+
+```{r setup}
+library(tidyverse)
+library(tidycensus)
+library(tmap)
+library(sf)
+library(sp)
+library(viridis)
+library(tigris)
+```
+
+# Exercises
+
+## Part 1
+
+For the first part of this lesson, I'll show you how you can add more detail and interactivity to a choropleth map in the tmap package!
+
+### Question 1
+
+Retrieve county-level ACS data for the year 2023, focused only on the state of North Carolina. Include geometry in your results, and find the percentage of residents who hold bachelor's degrees or higher in each NC county.
+
+Save your results to a new data frame named `nc_bach`.
+
+```{r, messgae = F}
+edu_vars <- c("B06009_005","B06009_006")
+
+```
+
+### Question 2
+
+In this next question, put the `tmap` package into interactive viewing mode. Then, use the `tm_polygons()` function to create a choropleth that visualizes the percentage of residents who hold a bachelor's degree in each county. As a final step, add a second map layer using `tm_bubbles()` that visualizes the number of people in each county who hold bachelor's degrees.
+
+```{r, messgae = F}
+my_palette <- rev(magma(8))[c(-1, -8)]
+
+```
+
+## Part 2
+
+**Hexbin heatmaps** are common and popular ways to visualize the relative concentration of some variable within a geographic unit, but do it in a way that isn't limited by the actual shape of the geography.
+
+This is useful when you want to represent each geographic unit as equal in size or importance to the units around it, regardless of its physical size or location.
+
+### Question 3
+
+In our first block, let's read in some geometry data that will allow us to create a hexbin visual, and let's render a basic plot using some of `ggplot2`'s basic mapping features.
+
+```{r, messgae = F, waning = F}
+
+```
+
+### Question 4
+
+In this next block, let's create a data frame named `state_data` that uses the built-in dataset for US states to store a list of all US state names and abbreviations. We'll need this later for some joins.
+
+```{r}
+
+```
+
+### Question 5
+
+Now let's take the following vector of census variables and use it to retrieve state-level data about the incarcerated population of each state from the 2010 decennial census. Then let's use `pivot_wider()` to pivot our variables to produce a data frame named `df` that stores our data at a granularity of **one row per state**.
+
+```{r, messgae = F, waning = F}
+
+```
+
+### Question 6
+
+Now let's calculate the incarceration rates for our Black/White populations by doing some simple math.
+
+To figure the incarceration rate per 100,000 people for each population, we need to divide the incarcerated population by the total population, then multiple by 100,000.
+
+Then, to determine the **relative rate** of incarceration for Black/AA people relative to White people, we can take the incarceration rate for one population and divide it by the other.
+
+Lastly, let's take our relative incarceration rate and use the `cut()` function (part of Base R) to slice up that variable into a series of categories that we can use for our map.
+
+```{r, messgae = F, waning = F}
+
+# cut(relative_rate,
+#     breaks = c(0,3,5,7,9,100),
+#     labels = c("0-3 times", "3-5 times", "5-7 times", "7-9 times", "9+ times"),
+#     include.lowest = TRUE)
+```
+
+### Question 7
+
+Now let's take our census data frame and join it to our shapefile data frame that contains all the geometry data we need to create the hexbin map.
+
+The census data only contains state **names**, not abbreviations, so first we need to join to our `state_data` data frame that we created earlier so we can bridge the gap. Then we can join again to the `shp` data frame to get the geometry data.
+
+```{r, messgae = F, waning = F}
+
+```
+
+## Part 3
+
+This next block is pre-staged for you. All it does is provide you with a couple of objects you can use with `ggplot` to polish up your hexbin map.
+
+The first object, `my_scale`, simply stores data related to the color palette of the map, including the title and location of our legend.
+
+The second object, `my_theme`, stores data about how the legend and overall plot should be styled.
+
+```{r, messgae = F, waning = F}
+my_scale <- scale_fill_manual(
+  values = my_palette,
+  name = "Incarceration rate of Black/AA relative to white",
+  guide = guide_legend(
+    keyheight = unit(3, units = "mm"),
+    keywidth = unit(12, units = "mm"),
+    label.position = "bottom", 
+    title.position = "top", 
+    nrow = 1))
+
+my_theme <- theme(
+  legend.position = c(0.5, 0.9),
+  text = element_text(color = "#22211d"),
+  plot.background = element_rect(fill = "#f5f5f2", color = NA),
+  panel.background = element_rect(fill = "#f5f5f2", color = NA),
+  legend.background = element_rect(fill = "#f5f5f2", color = NA),
+  plot.title = element_text(
+    size = 22, hjust = 0.5, color = "#4e4d47",
+    margin = margin(b = -0.1, t = 0.4, l = 2, unit = "cm")
+  )
+)
+```
+
+### Question 8
+
+With all of that prep work completed, let's now plot our incarceration data. Our goal here is to produce a map that looks polished and professional, like you would see in a newspaper or magazine article discussing trends in America's prison systems.
+
+```{r, messgae = F, waning = F}
+
+```
+
+------------------------------------------------------------------------
+
+::: callout-important
+You've reached the end of the exercise!
+:::

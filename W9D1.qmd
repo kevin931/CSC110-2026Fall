@@ -74,7 +74,9 @@ This is a **basic** example. It can get a lot more complicated than this!
 ## Getting ACS data (basic)
 
 ```{r}
-
+get_decennial(year = 2010,
+              geography = "state", 
+              variables = "P001001")
 ```
 
 1.  Call the `get_acs()` function

@@ -1,0 +1,173 @@
+---
+title: "W10D1"
+format: typst
+---
+
+# Setup
+
+```{r setup}
+#| message: false
+
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(tidycensus)
+library(tmap)
+```
+
+
+# Goals
+
+- Learn how to create choropleth maps using the tmap package with tidycensus data
+
+# Exercises
+
+## Part 1
+
+In the first part of today's lesson, we will try to recreate the choropleth for Mecklenburg County's African American population that is visible on page 3 of the LOTF report. The research question is: **Which census tracts in Mecklenburg County contain the highest concentration of Black or African American residents?**
+
+### Exercise 1
+
+Let's start by exploring the population variables that the decennial census makes available to us:
+
+```{r}
+
+```
+
+We can peruse this data frame to figure out which variables we need to answer the research question. Because our choropleth presents the percentage of Black/African American residents within each census tract in Mecklenburg County, we'll need a variable representing the number of people in that racial category for each census tract, as well as a population total that we can use to calculate the percentage.
+
+### Exercise 2 
+
+With our main variable and summary variable determined, let's retrieve the tract-level data from the decennial census endpoint.
+
+::: callout-important
+For this example, we're going to do one really important thing here, which is set `geometry = TRUE` in our call to `get_decennial()`. This will ensure that the Census Bureau API returns geometry data that we can use to graphically plot the boundaries of each census tract in the county.
+:::
+
+```{r, message=F}
+
+```
+
+### Exercise 3
+
+Now that we've collected our data from the census, we can calculate the percentage of Black/African American people within each census tract, and plot that data using tmap.
+
+To do this, we're going to first call the `tm_shape()` function, which is similar to our `ggplot()` function in that we use it to bind a data frame to our visual object.
+
+Once we've bound the data to that plot, we can then use `tm_polygons()` to actually draw the polygons on the map to represent each census tract. Within this function, the first (required) argument lets us tell tmap which variable we want to use to determine the shading of each polygon relative to the other polygons.
+
+```{r}
+
+```
+
+### Exercise 4
+
+Now that we've made our first choropleth, let's try to create one that is closer to the one from the LOTF report.
+
+The map from LOTF is incredibly hard to read, but I'll give you a helpful hint to determine the breakpoints in the map legend, and you can use the `breaks` argument within the `tm_polygons()` function to implement these:
+
+- Under 10%
+- 10-25%
+- 25-50%
+- 50-75%
+- 75-100%
+
+::: callout-note
+**Note**: We can also use the `tm_layout()` function to customize our title and legend.
+:::
+
+```{r}
+
+```
+
+### Switching map modes
+
+The tmap package allows you to choose between two different viewing modes for your maps:
+
+- "plot" mode is the default mode, which renders the map as a static image.
+- "view" mode renders the map **interactively**, with the ability to control the zoom level, turn on/off different map layers, and hover over polygons to see additional data.
+
+```{r}
+
+```
+
+## Part 2
+
+In Part 2, we're going to take a new approach and grab several different racial populations at once.
+
+### Exercise 5
+
+First, let's define the race variables we want from the decennial census:
+
+- White
+- Black
+- Asian
+- Hispanic
+
+Let's store these variable codes in a character vector named `racevars`, then let's add it to a `get_decennial()` call so we can retrieve the population totals for Mecklenburg County, NC, and calculate the population percentages for good measure.
+
+::: callout-note
+Obviously there are other racial categories present in the census data, but we're going to focus on these to keep our code a little simpler for this lesson.
+:::
+
+```{r}
+
+```
+
+### Exercise 6
+
+For this next part, let's create one choropleth showing the percentage of Hispanic people across Mecklenburg County, and another showing the percentage of Asian people, and let's combine them into a single output.
+
+To do this effectively, we need to save each map as an object in our environment using `<-`. 
+
+After that, we can use the `tmap_arrange()` function and its `ncol` argument to combine the two maps together into a single plot arranged into two (2) columns.
+
+```{r}
+
+```
+
+### Exercise 7
+
+Is there a more efficient way to visualize these different racial categories in our choropleth without having to define a new plot for each category?
+
+Absolutely, yes. We can use the `tm_facets()` function, which operates very similarly to the `facet_wrap()` and `facet_grid()` functions we have used previously.
+
+```{r}
+
+```
+
+::: callout-note
+Notice one nice thing about `tm_facets()` is that it puts all of our categories on the same percentage scale! This is different from how the `tmap_arrange()` function works.
+:::
+
+## Part 3
+
+For the tail end of this lesson, we'll shift our focus back to the national level and ask a simple question:
+
+**Which US states have the highest percentage Black or African American population?**
+
+### Exercise 8
+
+Let's begin by retrieving our data, selecting a suitable geography level for the research question, and remember to get both a summary variable **and** the geometry data! Then transform the data to calculate percentages.
+
+```{r}
+
+```
+
+### Exercise 9
+
+Once the data is retrieved, let's plot the map showing the density of Black/African American populations by US state. Set whatever breakpoints you think are appropriate to show the variation in these populations across the country.
+
+::: callout-tip
+For this example, it may help to filter out the states/territories of Alaska, Hawaii, and Puerto Rico.
+:::
+
+```{r}
+
+```
+
+------------------------------------------------------------------------
+
+::: callout-important
+You've reached the end of the exercise!
+:::
