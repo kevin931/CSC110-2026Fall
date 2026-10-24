@@ -1,0 +1,73 @@
+---
+title: Homework 10
+format: typst
+---
+
+## Intro
+
+This assignment focuses on mapping US Census data using the `tidycensus` and `tmap` packages, which comes from [Walker 6.3](https://walker-data.com/census-r/mapping-census-data-with-r.html#map-making-with-tmap){target="_blank"}. You'll practice creating choropleth maps to visualize demographic patterns across different geographic areas.
+
+As you work through this homework, you'll gain more experience with:
+- Retrieving spatial census data
+- Creating static choropleth maps with `tmap`
+- Customizing map appearance with different color palettes and classification methods
+- Adding reference elements like scale bars and legends
+
+## Setup
+
+Run the setup block below to load the packages you need.
+
+- You know what `tidyverse` and `tidycensus` give us already!
+- `tmap` gives us spatial mapping capabilities
+- `tigris` provides some additional functions to working with TIGER shape files
+
+```{r setup, message = F}
+library(tidyverse)
+library(tidycensus)
+library(tmap)
+library(tigris)
+```
+
+## Exercises
+
+### Question 1
+
+Use `get_acs()` to retrieve median age (`B01002_001`) data for all US states in 2024, including geometry data, and save the output to a new data frame named `q1`.
+
+- Use `resolution = "20m"` inside `get_acs()` to retrieve lower-resolution map data. This will speed up the creation of your maps in R by using simplified geometries.
+- Use `shift_geometry()` after `get_acs()` to shift and rescale the locations of Alaska, Hawaii, and Puerto Rico with respect to the Continental United States. (You will see the effects of this when we plot the choropleth in the next question.)
+
+
+### Question 2
+
+Using the `q1` data frame, create a choropleth map using the `tmap` package that shows the median age in all US states and territories in our dataset. Include a legend, and save your output to `q2`.
+
+
+### Question 3
+
+Using the same `q1` data frame from the previous questions, merge each state's two digit abbreviation (e.g., North Carolina = NC) into a new dataset named `q3`.
+
+::: callout-tip
+You can use the built-in dataset for US states by creating a custom data frame, then join this to your ACS data frame.
+
+```
+us_states <- data.frame(
+  state.name,
+  state.abb
+)
+```
+:::
+
+
+### Question 4
+
+Using the `q3` data frame, build a new choropleth named `q4` that enhances your original choropleth map by adding several contextual elements:
+
+- Use `tm_polygons()` to add a histogram to the map (see Walker Ch 6)
+- Add either a diverging or sequential color palette to your polygon layer (Walker Ch 6) using one of the [ColorBrewer palettes](https://en.wikipedia.org/wiki/ColorBrewer){target="_blank"}, and note that you can **reverse** a given color palette by adding a hyphen character in front of its name!
+- Use `tm_text()` to add each state's abbreviation to the map; use the `size` and `col` properties to adjust as needed for the best visibility
+- Use `tm_scale_bar()` to add a scale bar in the bottom left corner of the plot
+- Use `tm_compass()` to add a compass in the top left corner
+- Use `tm_credits()` to add a data source credit in the bottom right corner
+- Use `tm_layout()` to add a title and legend. Position the legend on the outside of the map, on the right side
+
