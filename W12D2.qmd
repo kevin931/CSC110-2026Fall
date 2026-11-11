@@ -1,0 +1,205 @@
+---
+title: "W12D2"
+format: typst
+---
+
+# Goals
+
+- Learn some nifty quirks and features of Quarto
+- Work through some debugging with R and reading error messages
+
+First, let's load the packages:
+
+```{r}
+#| message: False
+#| warning: False
+
+library(tidyverse)
+```
+
+# Data and Preprocessing
+
+For this exercise, we will use a dataset on voter count from the `usdata` package:
+
+```{r}
+
+```
+
+Notice that the data are compositional, meaning that some observations are nested within others. So, let's filter out the total counts from `United States`:
+
+```{r}
+
+```
+
+# Quirks and Features of Quarto
+
+## R Code Options
+
+In Quarto, we have many options to decide whether the code chunks will run, show results, or anything in between. This is very useful, because we often want to customize exactly what we see, rather than having everything run all at once. So, for this exercise, we will customize these options.
+
+### Exercise 1: Voter Turnout
+
+To measure the voter turnout of each state across time, let's draw a line plot with year on the x axis and `percent_total_ballots_counted` on y axis. Make sure each line is of a different color. You may disable the legend and label the axes. Let's actually make a function out of this called `vt_plot` :
+
+```{r}
+
+```
+
+In Quarto, there are two ways to customize them. The first way is the old school way:
+
+```{r}
+
+```
+
+The second way is the modern way:
+
+```{r}
+
+```
+
+### Exercise 2
+
+Now that we know how to customize it, you will achieve the following using options. The instructions are given in each code block.
+
+::: callout-important
+To show the effect, you need to render the document!
+:::
+
+**Instruction:** Only shows code, but nothing else
+
+```{r}
+
+```
+
+**Instruction:** Shows and runs the code, but doesn't show the figure
+
+```{r}
+
+```
+
+**Instruction:** Only runs the code but nothing else is shown
+
+```{r}
+
+```
+
+**Instruction:** Nothing is run and nothing is shown
+
+```{r}
+
+```
+
+**Instruction:** Everything is shown except for the code
+
+```{r}
+
+```
+
+### Exercise 3
+
+For some codes, they have an output rather than a plot. We can disable it well. Let's use the following `glimpse(df)` :
+
+**Instruction:** No outputs, but code is run and everything else shown
+
+```{r}
+
+```
+
+This is very useful for dealing with codes that have side effects.
+
+## Figure Customization in R
+
+Sometimes, we may want to customize our figures. Here are some options:
+
+- `fig-cap`: Captions
+
+- `fig-alt`: Alt text
+
+- `fig-width`: Width of the figure
+
+- `fig-height`: Height of the figure
+
+- `label`: This allows you to relabel the figure which must start with \`\@fig-\`
+
+### Exercise 4
+
+Let's redraw the above graph and make a figure with width 7, height 5, a sensible caption, and an alt text. Let's also label our figure `figure1` and we will later refer to it.
+
+```{r}
+
+```
+
+In XXX, we see that the figure is captioned and numbered. The dimensions are also correct. With cross referencing, you can move around the code and figures without worrying about renaming your figures.
+
+## Naming Code Blocks
+
+It is often useful to name your code chunks so that you can know what it does:
+
+```{r}
+
+```
+
+**Question**: How do we read error messages?
+
+::: callout-note
+It is not always necessary to name your code blocks, but you are more than welcomed to do it always.
+:::
+
+## Inline Code
+
+Sometimes, it's useful to write code in line. For example, what you write may depend on the dataset, which can change from time to time.
+
+### Exercise 5
+
+The dataset we preprocess has XXX rows and XXX columns.
+
+## Callout Blocks
+
+There are five types of callout blocks:
+
+- note
+
+- Warning
+
+- important
+
+- tip
+
+- caution
+
+They each will add a box highlighting the contents needed. We will try each of them as see how they look.
+
+### Exercise 6
+
+Let's create one of each and look at how it looks:
+
+## Global Options and Front Matters
+
+For a document, you can control the code behaviors globally.
+
+You can also use add front matters such as authors, institutions, and names.
+
+Let's see them in action in the document.
+
+## Tables
+
+We can also insert tables into Quarto pretty easily without having to write Markdown. Let's do it!
+
+## Citations
+
+In your project, you will likely be citing sources for your dataset, some background research, and other results you may find useful. In your other classes, you may have used one of the following methods:
+
+- Manual citation
+- Zotero
+- Google Doc plug-ins
+- Online citation generators
+
+For Quarto, none of these are very useful or efficient. You can theoretically do everything by hand by typing out the citations, but this is tedious and hard to format in R. So, we will introduce a citation system with `bibTeX` files. The citations will be placed at the end of the document.
+
+### Single Citation
+
+Here is a citation for Tidyverse, which we use regularly.
+
+### Multiple Citations
+
+Here is an example of something that needs multiple citations: tidycensus, which has many papers associated with it. So you can cite tidycensus accordingly
