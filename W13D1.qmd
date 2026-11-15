@@ -1,0 +1,227 @@
+---
+title: "W13D1"
+format: typst
+---
+
+# Goal
+
+- Load and tidy text data
+- Learn tokenization, TF-IDF, and rudimentary sentiment analysis
+- Recognize the differences between classical text analysis methods vs. modern LLMs
+
+# Tidying Text Data
+
+In this lecture, we will focus on text data that are relatively clean. That is, we won't be analyzing the grammar, using regular expressions, or doing anything that is too fancy to clean up our text. Rather, we will be focusing on some classic techniques of working with text data, which may use useful in some contexts, whether to understand LLMs or to offer an alternative look at data science.
+
+First, let's load some packages:
+
+```{r}
+#| message: False
+#| warning: False
+
+library(tidyverse)
+
+if (!require(tidytext)) {
+  install.packages("tidytext")
+}
+if (!require(textdata)) {
+  install.packages("textdata")
+}
+```
+
+## Data Loading and EDA
+
+For this lecture, we will look at some tweets. Specifically, we will focus on some tweets that were collected. In fact, this dataset comes from the famous `tweeteval` dataset, which is a common benchmark for classification. We will not use it for classification. Rather, we will analyze the contents. The dataset is hosted on Github, so we can directly grab it from the website:
+
+```{r}
+#| message: False
+
+data_path <- "https://raw.githubusercontent.com/cardiffnlp/tweeteval/refs/heads/main/datasets/emotion/test_text.txt"
+labels_path <- "https://raw.githubusercontent.com/cardiffnlp/tweeteval/refs/heads/main/datasets/emotion/test_labels.txt"
+  
+tweets <- read_delim(data_path, delim = "\t", col_names = F)
+labels <- read_delim(labels_path, delim = "\t", col_names = F)
+```
+
+First, let's take a glance at the dataset:
+
+```{r}
+
+```
+
+Before we begin, we can do some very brief cleaning by doing the following:
+
+- Changing column name of the tweets to `text`
+
+- Changing the column name of the labels to `label`
+
+- Combining the two datasets by columns (no need for joining)
+
+```{r}
+
+```
+
+Notice that there is a column called `label`. If you are familiar with the dataset, you may know what the labels are. But let's hold off on that. We will look at our results and make our own decisions.
+
+## Tokenization
+
+Even nowadays, tokenization in text is widely used, even by LLMs, because we need to break down language into manageable chunks for processing. In fact, we do this in daily speech: we take pauses strategically to both take a breath and introduce meaning into speech. Now, can you try the following without any pause?
+
+::: callout-important
+supercalifragilisticexpialidocious
+:::
+
+### Word Tokenization
+
+The first is simply breaking text into words:
+
+```{r}
+
+```
+
+### Exercise 1
+
+Let's look at the most popular (Top 15) words across all tweets and then plot a bar chart. We can use `geom_text` for adding a count to the bars.
+
+```{r}
+
+```
+
+::: callout-note
+**Question**: What can we learn just by looking at the most popular words?
+:::
+
+### Exercise 2
+
+Then, let's graph the most popular (Top 15) words for each label and plot a faceted bar chart for each.
+
+```{r}
+
+```
+
+::: callout-note
+**Question**: Are these plots useful?
+:::
+
+## Stop Word Removal
+
+Stop words are words that play a structural role in the language. For example, common stops include prepositions, pronouns, etc. While they can be important in context, we will remove them so that we can analyze contents instead.
+
+::: callout-caution
+If your analyses include the specific usage of stop words, you should not remove such stop words. **Can you think of an example of this?**
+:::
+
+There is a dataset with stop words:
+
+```{r}
+
+```
+
+If want to remove words in our dataset that is in the `stop_words` dataset, which function should we use?
+
+```{r}
+
+```
+
+### Exercise 3
+
+Let's repeat the graph from Exercise 3 again. Let's also make sure that the bars are ordered correctly this time:
+
+```{r}
+
+```
+
+### Exercise 4
+
+Notice that `user` is still dominating: in other words, we want to filter out some custom words. Let's remove them and plot again:
+
+```{r}
+
+```
+
+::: callout-note
+**Question**: Can we guess the labels?
+:::
+
+# TF-IDF
+
+If we look at the frequencies in the plot closely, some words are common to all, such as `time`, `day`, and `people`. These words are arguably common enough and they are common across all four categories.
+
+::: callout-tip
+What if there is method that can quantify words that are relatively unique to each category?
+:::
+
+This is where TF-IDF comes in.
+
+## Intuition
+
+TF-IDF comes in two parts that are multiplied together:
+
+1.  Term frequency (TF): The relative frequency of a term in a document
+2.  Inverse Document Frequency (IDF):
+
+$$
+\text{IDF} =\log \frac{N}{n_t}
+$$
+
+where $N$ is the number of total documents and $n_t$ is the number of documents containing a certain team.
+
+::: callout-important
+**Question**: What happens when a term is mentioned in every document?
+:::
+
+### Documents
+
+Sometimes, we are analyzing documents. But in many cases, we don't have traditional documents. What can we do?
+
+::: callout-tip
+As long as words can be grouped into larger groups, we can think of them as documents.
+:::
+
+Some applications:
+
+- **Tweets**: We can use tweets themselves as documents, but they are too short. A natural alternative is the labels.
+
+- **Books:** We can compare books or chapters within a book
+
+- **Articles:** We can compare articles
+
+## Application to Tweets
+
+In our case, we will treat each label as a document. The function is trivially simple to compute:
+
+```{r}
+#| fig.height: 5
+
+```
+
+Now, we can see the categories better.
+
+# Naive Sentiment Analysis
+
+Sentiment analysis is the process of gauging sentiment of text: whether positive, negative, or other emotions. Nowadays, nobody is going to do what we do, because LLMs and other custom models can do so much better of a job. However, we are going to do something very simple: we are counting the number of positive and negative words.
+
+::: callout-note
+Can we use simple methods to gauge the sentiment of each tweet label?
+:::
+
+First, let's use the following dataset:
+
+```{r}
+
+```
+
+### Exercise 5
+
+Let's join the datasets and plot a side-by-side boxplots of sentiments for each category. Some tweets won't have sentiment values at all, and some will have multiple words that are on the list. So, we will need to compute the average for each tweet.
+
+```{r}
+
+```
+
+# What are labels?
+
+1.  
+2.  
+3.  
+4.  
