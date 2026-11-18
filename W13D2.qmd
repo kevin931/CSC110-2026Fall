@@ -1,0 +1,187 @@
+---
+title: "W13D2"
+format: typst
+---
+
+Before we begin, let's load some packages:
+
+```{r}
+#| message: False
+#| warning: False
+
+library(tidyverse)
+library(tidycensus)
+library(uwot)
+library(tidytext)
+```
+
+# Dimension Reduction
+
+Dimension reduction (DR) is the process of summarizing data with lots of dimensions. We need this because it is often cumbersome or nearly impossible to work with high-dimensional data.
+
+::: callout-tip
+Usually, we refer to variables as dimensions.
+:::
+
+**Questions**:
+
+1.  What's one way of visualizating relationships between 2 variables?
+2.  How many relationships are there if we have $n$ variables?
+3.  Can we think of some examples of dimension reduction?
+
+# Tweet Example
+
+## Preprocessing
+
+First, we will start with what we did last time:
+
+```{r}
+## Load data
+data_path <- "https://raw.githubusercontent.com/cardiffnlp/tweeteval/refs/heads/main/datasets/emotion/test_text.txt"
+labels_path <- "https://raw.githubusercontent.com/cardiffnlp/tweeteval/refs/heads/main/datasets/emotion/test_labels.txt"
+  
+tweets <- read_delim(data_path, delim = "\t", col_names = F)
+labels <- read_delim(labels_path, delim = "\t", col_names = F)
+
+# Combine Datasets
+tweets <- tweets |>
+  rename(text = X1) |>
+  bind_cols(labels) |>
+  rename(label = X1) |>
+  mutate(ID = 1:nrow(tweets))
+
+# Tokenize
+tweets_token <- tweets |>
+  unnest_tokens(word, text)
+
+## TF-IDF
+tf_idf <- tweets_token |>
+  count(word, ID) |>
+  bind_tf_idf(word, ID, n)
+```
+
+**Question**: If we treat eact individual tweet as a unit, is the data in tidy data format?
+
+We can further preprocess this:
+
+```{r}
+
+```
+
+Notice that each tweet is very short, making our data very sparse. What we can do is to fill every value with 0:
+
+```{r}
+
+```
+
+## UMAP
+
+Now, we have a dataset with each row as a tweet and each column as a word. We can proceed to run UMAP.
+
+```{r}
+
+```
+
+Let's look at the results. But before we can visualize it, we need to add some metadata:
+
+- `ID` for tweets
+- `label` for categories
+
+```{r}
+
+```
+
+Now, we can plot a 2-dimensional scatterplot:
+
+```{r}
+
+```
+
+**Question**: Are there any trends with the labels:
+
+```{r}
+
+```
+
+::: callout-important
+
+:::
+
+# How does UMAP work?
+
+Let's walk through some intuitions on the board.
+
+# Case Study: Counties in the US
+
+Now that we know how `umap` works, let's go back to tidycensus and see whether we can identify any trends across all counties in the us. Let's pull all variables from 2024 ACS 5-year:
+
+```{r}
+
+```
+
+Now, let's filter for all total estimates with at least county-level data available:
+
+```{r}
+
+```
+
+This will give us 800 variables, which are still too many for ACS. Let's randomly sample 200 of them:
+
+```{r}
+set.seed(2026)
+
+```
+
+Using these variables, let's get the ACS data:
+
+```{r}
+
+```
+
+Before we can use the data, we will need to do some preprocessing:
+
+- We need to remove all the MOE from the data
+
+- We also want to separate all County and State from the NAME column.
+
+```{r}
+
+```
+
+We also need to standardize the dataset:
+
+```{r}
+
+```
+
+It turns out there are some data missing. Let's remove all the columns with NA:
+
+```{r}
+
+```
+
+## Dimension Reduction
+
+Now, we can reduce the dimension with `UMAP` with the same procedures. Note, we need the 4th to 203rd column:
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+### Finding Clusters
+
+Let's identify some of these clusters:
+
+```{r}
+
+```
+
+What do we observe?
