@@ -1,0 +1,103 @@
+---
+title: "HW13"
+format: typst
+---
+
+# Intro
+
+In this homework, you will be working with text data and applying some of the things we learned in class. Specifically, we will be working with **Jane Austen** (not actually working along side her, but working with her work).
+
+# Setup
+
+For this homework, you will need the following packages. I've written the code for you so that you can directly use the following block:
+
+```{r}
+#| message: False
+#| warning: False
+
+if (!require(janeaustenr)) {
+  instal.packages("janeaustenr")
+}
+library(tidyverse)
+library(stringr)
+```
+
+## Data Preprocessing
+
+Before we start, we will use the following code from the textbook to clean the dataset. It is slightly ugly, so we'll leave it as is.
+
+```{r}
+books <- austen_books() %>%
+  group_by(book) %>%
+  mutate(linenumber = row_number(),
+         chapter = cumsum(str_detect(text, 
+                                     regex("^chapter [\\divxlc]",
+                                           ignore_case = TRUE)))) %>%
+  ungroup()
+```
+
+Before you begin, it is a good idea to explore the dataset a little yourself. Below are a few questions to guide you: you don't have to submit the answers, but it is helpful to find out.
+
+- What does each row represent?
+
+- How many novels are included?
+
+- How many chapters are in each novel?
+
+# Question 1
+
+Choose one of the novels from the `books` dataset, and make a new dataset. You may choose one you've read, one that sounds interesting, or you you'd like to find out more about. For your chosen work, perform the following steps:
+
+- Word tokenization
+
+- Stop word removal
+
+- Word count after stop word removal (draw a bar chart or another visualization of your choice)
+
+- Sentiment analysis by chapter
+
+After you performed each step, comment on your observations and whether you got the results you expected. For word count and sentiment analysis, comment on whether the results you got make sense to you, based on your knowledge of the work.
+
+::: callout-tip
+If you haven't read any of the novels, you can look up its plot or a quick summary to answer the question.
+:::
+
+# Question 2
+
+Now, this is where it gets fancy. Sticking with the work you chose, do the following:
+
+- Compute the TF-IDF by chapter
+
+- Plot a word frequency plot based on TF-IDF for four chapters of your choice with a faceted plot
+
+- Using the TF-IDF matrix, compute the `umap` and plot a 2D embedding colored by chapter.
+
+::: callout-tip
+You may decide whether to standardize your data for `umap`.
+:::
+
+Afterwards, comment on your results:
+
+- Is there a pattern in `umap`? Do some chapters cluster together?
+
+- Does TF-IDF capture different topics across chapters?
+
+# Question 3
+
+Now, you will repeat the steps of **Question 2** but with all books in a single dataframe:
+
+- Compute the TF-IDF by chapter
+
+- Plot a word frequency plot based on TF-IDF for all books using a faceted plot
+
+- Using the TF-IDF matrix, compute the `umap` and plot a 2D embedding colored by book.
+
+Afterwards, comment on your results:
+
+- Is there a pattern in `umap`? Do chapters from the same book cluster together?
+
+- Does TF-IDF capture different topics across chapters?
+
+# Question 4
+
+What do you think about text analysis and dimension? Do you find them useful? Finicky? Fascinating? This is a place where you can share your thoughts on these topics.
